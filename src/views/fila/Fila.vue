@@ -13,7 +13,6 @@
         md12
         sm12
         xs12
-        style="border:2px solid red;"
         class="container-cards"
         v-for="n in 4"
         :key="n"
@@ -44,22 +43,40 @@
       </v-flex>
     </v-layout>
 
-    <div class="attendants-online-and-queue">       
+    <div class="attendants-online-and-queue">    
       <div class="container-button">
-        <v-btn small
-          @click="showModal = true"
+        <v-btn
           color="primary"
-          class="toolbar-items"
-          to="/"
-          id="show-modal"
+          @click="overlay = !overlay"
+          style="margin-bottom: 30px!important;"
         >
           Mais opções
         </v-btn>
-      </div>
 
-      <modal v-if="showModal" @close="showModal = false">
-        <h3 slot="header">custom header</h3>
-      </modal>
+        <v-overlay
+          :absolute="absolute"
+          :opacity="opacity"
+          :value="overlay"
+          :z-index="zIndex"
+        >
+          <div class="container-overlay">
+            <v-btn
+              color="primary"
+              @click="overlay = false"
+            >
+              Priorizar
+            </v-btn>
+
+            <v-btn
+              color="primary"
+              @click="overlay = false"
+            >
+              Desabilitar
+            </v-btn>
+
+          </div>
+        </v-overlay>
+      </div>
 
       <v-sheet
         class="mx-auto"
@@ -177,8 +194,11 @@ export default {
     arrow: './img/arrow.png',
     dialog: false,
     dialog2: false,
-    showModal: false
-    })
+    absolute: false,
+    opacity: 0.46,
+    overlay: false,
+    zIndex: 5
+  })
 }
 </script>
 <style lang="scss">
@@ -197,6 +217,9 @@ div > div.mx-auto.rotated.v-sheet.theme--light > div > div.v-slide-group__wrappe
 .theme--light.v-sheet {
   background: transparent !important;
 }
+div.container-overlay {
+  display: flex; flex-direction: column;
+}
 
 div.attendants-online-and-queue > div.mx-auto.v-sheet.theme--light {
   max-width: 882px;
@@ -212,9 +235,9 @@ div.attendants-online-and-queue > div.mx-auto.v-sheet.theme--light > div > div.v
 .container.grid-list-xl :not(:only-child) .layout:last-child {
   margin-bottom: 0 !important;
 }
+.v-application { border: 2px solid red; }
 
 div.wrapper-content {
-  border: 2px solid blue;
   padding: 0!important;
 }
 
@@ -268,7 +291,7 @@ div.layout .wrap {
 }
 
 div.attendants-online-and-queue div.container-cards {
-  max-width: 140px; 
+  max-width: 140px;
 }
 div.attendants-online-and-queue > div:nth-child(2) > div.container-arrow {
   width: 100%;
@@ -299,7 +322,7 @@ div.mx-auto.rotated.v-sheet.theme--light > div > div.v-slide-group__wrapper > di
 .attendants-online-and-queue {
   display: flex;
   flex-direction: column;
-  border: 2px solid orange;
+  border-left: 2px solid #808080;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -320,6 +343,7 @@ div.container-cards div div.v-card__text {
   justify-content: center;
   flex-direction: column;
   padding: 18px 5px 5px;
+  background-color: #ffffff !important;
 }
 
 .v-card .v-offset .v-card--material__header.v-card {
