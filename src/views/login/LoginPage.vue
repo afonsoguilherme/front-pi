@@ -1,7 +1,7 @@
 <template>
   <div
     id="app"
-    class="fundo">
+    class="fundoLogin">
     <v-app id="inspire">
       <v-container
         grid-list-xl

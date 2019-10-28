@@ -41,6 +41,7 @@ html {
 .v-toolbar {
   contain: layout;
   flex: 0;
+  margin-bottom: 0px;
   max-width: 100%;
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
 }
@@ -67,14 +68,47 @@ html {
   margin-top: 100px;
   font-size: 16px;
 }
-
-.fundo {
+.v-card--material-stats .v-card {
+  border-radius: 50%;
+  width: 70px;
+  flex: 0 1 auto;
+}
+.fundoLogin {
   background-color: #F16422;
+  // background-image: url(../public/img/fundo2.jpg);
+  background-size: cover;
+}
+.fundoFila {
+  background-color: #616161;
   // background-image: url(../public/img/fundo2.jpg);
   background-size: cover;
 }
 #inspire {
   font-family: 'Exo 2', sans-serif;
   background: none;
+}
+.row {
+  display: block;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  margin-right: -12px;
+  margin-left: -12px;
+}
+.cardFila{
+  margin: auto;
+  display: block;
+  width: 80px !important;
+  height: 80px !important;
+  margin-top:-40px;
+}
+.cardAvatar{
+  margin: auto;
+  display: block;
+  padding-top: 5px;
+}
+.cardText{
+  text-align: center;
+  margin: 0px;
+  padding-top: 10px;
 }
 </style>
