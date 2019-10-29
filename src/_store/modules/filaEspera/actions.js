@@ -39,7 +39,7 @@ export default {
       .then(
         vendedor => {
           commit('iniciarAusenciaSuccess', vendedor)
-          // router.push('/vendedores')
+          router.push('/fila')
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')

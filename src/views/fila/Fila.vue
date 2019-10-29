@@ -39,7 +39,7 @@
                         size="70"
                         class="cardAvatar"
                       >
-                        <img :src="logo">
+                        <img :src="ausencia.vendedor.imagemVendedor">
                       </v-avatar>
                     </v-card>
                     <p class="cardText">{{ ausencia.vendedor.nomeVendedor }}</p>
@@ -49,7 +49,7 @@
                       style="margin: auto; display: block;"
                       @click="fimAusencia(ausencia.vendedor.idVendedor)"
                     >
-                      Finalizar
+                      Voltar
                     </v-btn>
                   </material-card>
                   <br>
@@ -94,7 +94,7 @@
                               size="70"
                               class="cardAvatar"
                             >
-                              <img :src="logo">
+                              <img :src="espera.vendedor.imagemVendedor">
                             </v-avatar>
                           </v-card>
                           <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
@@ -123,10 +123,10 @@
                               size="70"
                               class="cardAvatar"
                             >
-                              <img :src="logo">
+                              <img :src="espera.vendedor.imagemVendedor">
                             </v-avatar>
                           </v-card>
-                          <p  class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
+                          <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
                           <v-btn
                             small
                             color="grey darken-2"
@@ -169,13 +169,13 @@
                       >
                         <v-card
                           color="success"
-                          style="margin: auto; display: block; width: 80px; height: 80px; margin-top:-40px;"
+                          class="cardFila"
                         >
                           <v-avatar
                             size="70"
-                            style="margin: auto; display: block; padding-top: 5px;"
+                            class="cardAvatar"
                           >
-                            <img :src="logo">
+                            <img :src="atendimento.vendedor.imagemVendedor">
                           </v-avatar>
                         </v-card>
                         <p class="cardText">{{ atendimento.vendedor.nomeVendedor }}</p>
@@ -213,7 +213,7 @@
                   color="warning"
                   @click="inicioAusencia(idVendedor)"
                 >
-                  Ausencia
+                  Sair
                 </v-btn>
               </div>
               <div v-else>
@@ -227,7 +227,7 @@
                   color="warning"
                   @click="inicioAusencia(idVendedor)"
                 >
-                  Ausencia
+                  Sair
                 </v-btn>
               </div>
             </v-card-actions>
@@ -249,6 +249,14 @@ export default {
       codigoVendedor: '',
       imagemVendedor: '',
       contador: '',
+      movimento: {
+        idVendedor: '',
+        tipoMovimento: '',
+        statusVenda: false,
+        justificativaVenda: '',
+        inicioMovimento: '2019-10-28T22:52:03.558Z',
+        finalMovimento: '2019-10-28T22:52:03.558Z'
+      },
       logo: './img/icon.jpg',
       modalAcoes: false,
       inheritAttrs: false,
@@ -257,16 +265,21 @@ export default {
   },
   computed: {
     ...mapState({
-      filaAtendimento: state => state.filaAtendimento.all.items,
-      mensagem: state => state.filaAtendimento.status
+      filaAtendimento: state => state.filaAtendimento.all.items
+      // mensagem: state => state.filaAtendimento.status
     }),
     ...mapState({
-      filaEspera: state => state.filaEspera.all.items,
-      mensagem: state => state.filaAtendimento.status
+      filaEspera: state => state.filaEspera.all.items
+      // mensagem: state => state.filaEspera.status
     }),
     ...mapState({
-      filaAusencia: state => state.filaAusencia.all.items,
-      mensagem: state => state.filaAtendimento.status
+      filaAusencia: state => state.filaAusencia.all.items
+      // mensagem: state => state.filaAusencia.status
+    }),
+    ...mapState({
+      movimentos: state => state.movimentos.all.items,
+      movimentosVendedor: state => state.movimentos.allVendedor.items
+      // mensagem: state => state.movimentos.status
     })
   },
   created () {
@@ -288,6 +301,10 @@ export default {
       getAllAusencia: 'getAll',
       finalizarAusencia: 'finalizarAusencia'
     }),
+    ...mapActions('movimentos', {
+      register: 'register',
+      end: 'end'
+    }),
     openModalAcoes (nome, id, i) {
       this.nomeVendedor = nome
       this.idVendedor = id
@@ -300,16 +317,38 @@ export default {
     inicioAtendimento (idVendedor) {
       this.iniciarAtendimento(idVendedor)
       this.modalAcoes = false
+      if (idVendedor !== null) {
+        this.movimento.idVendedor = idVendedor
+        this.movimento.tipoMovimento = 'Venda'
+        this.register(this.movimento)
+      }
     },
     fimAtendimento (idVendedor) {
       this.finalizarAtendimento(idVendedor)
+      if (idVendedor !== null) {
+        this.movimento.idVendedor = idVendedor
+        this.movimento.statusVenda = true
+        this.movimento.justificativaVenda = 'Teste atendimento'
+        this.end(this.movimento)
+      }
     },
     inicioAusencia (idVendedor) {
       this.iniciarAusencia(idVendedor)
       this.modalAcoes = false
+      if (idVendedor !== null) {
+        this.movimento.idVendedor = idVendedor
+        this.movimento.tipoMovimento = 'Ausencia'
+        this.register(this.movimento)
+      }
     },
     fimAusencia (idVendedor) {
       this.finalizarAusencia(idVendedor)
+      if (idVendedor !== null) {
+        this.movimento.idVendedor = idVendedor
+        this.movimento.statusVenda = false
+        this.movimento.justificativaVenda = 'Teste ausencia'
+        this.end(this.movimento)
+      }
     }
   }
 }

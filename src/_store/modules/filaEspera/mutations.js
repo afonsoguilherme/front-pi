@@ -21,8 +21,12 @@ export default {
   iniciarAtendimentoFailure (state, error) {
     state.status = { error }
   },
-  iniciarAusenciaRequest (state, vendedor) {
-    state.status = { registering: true }
+  iniciarAusenciaRequest (state, idVendedor) {
+    state.all.items = state.all.items.map(vendedor =>
+      vendedor.idVendedor === idVendedor
+        ? { ...vendedor, registering: true }
+        : vendedor
+    )
   },
   iniciarAusenciaSuccess (state, vendedor) {
     state.status = { vendedor }

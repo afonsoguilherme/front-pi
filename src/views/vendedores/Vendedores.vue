@@ -50,7 +50,6 @@
                 Editar
               </v-btn>
             </template>
-
             <template v-slot:item.delete="{ item }">
               <v-btn
                 color="grey darken-2"
@@ -63,28 +62,24 @@
                 Excluir
               </v-btn>
             </template>
-
             <template v-slot:no-data>
               <v-alert
                 :value="true"
                 color="error"
                 icon="mdi-alert"
-              >TEXTO!</v-alert>
+              >Não existem vendedores cadastrados!</v-alert>
             </template>
           </v-data-table>
         </material-card>
-
         <v-dialog
           v-model="modalDelete"
           max-width="350"
         >
           <v-card>
             <v-card-title class="headline">Deseja realmente excluir o vendedor?</v-card-title>
-
             <v-card-text>
               O vendedor {{ nomeVendedor }} será excluido permanentemente do sistema!
             </v-card-text>
-
             <v-card-actions>
               <div class="flex-grow-1"/>
 
@@ -125,7 +120,6 @@ export default {
       headers: [
         { text: 'Nome', align: 'left', value: 'nomeVendedor' },
         { text: 'Código', align: 'left', value: 'codigoVendedor' },
-        { text: 'Imagem', align: 'left', value: 'imagemVendedor' },
         { text: 'Editar', align: 'center', value: 'edit', sortable: false },
         { text: 'Excluir', align: 'center', value: 'delete', sortable: false }
       ]

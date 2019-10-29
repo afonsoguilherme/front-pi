@@ -33,7 +33,24 @@
               label="Código"
               required
             />
-            <v-file-input label="Imagem"/>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              height="150"
+            >
+            <v-text-field
+              v-model="imageName"
+              prepend-icon="mdi-paperclip"
+              label="Selecionar a imagem"
+              @click="pickFile"
+            />
+            <input
+              ref="image"
+              type="file"
+              style="display: none"
+              accept="image/*"
+              @change="onFilePicked"
+            >
             <v-btn
               :disabled="!valid"
               color="success"
@@ -63,6 +80,9 @@ export default {
   data () {
     return {
       valid: true,
+      imageName: '',
+      imageUrl: '',
+      imageFile: '',
       vendedor: {
         nomeVendedor: '',
         codigoVendedor: '',
@@ -84,9 +104,31 @@ export default {
     }),
     handleSubmit () {
       if (this.$refs.formCadastro.validate()) {
-        console.log('Usuario a ser cadastrado: ' + JSON.stringify(this.vendedor))
         this.register(this.vendedor)
         this.$refs.formCadastro.reset()
+      }
+    },
+    pickFile () {
+      this.$refs.image.click()
+    },
+    onFilePicked (e) {
+      const files = e.target.files
+      if (files[0] !== undefined) {
+        this.imageName = files[0].name
+        if (this.imageName.lastIndexOf('.') <= 0) {
+          return
+        }
+        const fr = new FileReader()
+        fr.readAsDataURL(files[0])
+        fr.addEventListener('load', () => {
+          this.imageUrl = fr.result
+          this.vendedor.imagemVendedor = this.imageUrl
+          this.imageFile = files[0]
+        })
+      } else {
+        this.imageName = ''
+        this.imageFile = ''
+        this.imageUrl = ''
       }
     }
   }
