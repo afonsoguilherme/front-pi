@@ -35,12 +35,28 @@
                       color="orange"
                       class="cardFila"
                     >
-                      <v-avatar
-                        size="70"
-                        class="cardAvatar"
-                      >
-                        <img :src="ausencia.vendedor.imagemVendedor">
-                      </v-avatar>
+                      <div v-if="ausencia.vendedor.imagemVendedor === ''">
+                        <v-avatar
+                          size="70"
+                          class="cardAvatar"
+                        >
+                          <img
+                            :src="iconImage"
+                            width="auto"
+                          >
+                        </v-avatar>
+                      </div>
+                      <div v-else>
+                        <v-avatar
+                          size="70"
+                          class="cardAvatar"
+                        >
+                          <img
+                            :src="ausencia.vendedor.imagemVendedor"
+                            width="auto"
+                          >
+                        </v-avatar>
+                      </div>
                     </v-card>
                     <p class="cardText">{{ ausencia.vendedor.nomeVendedor }}</p>
                     <v-btn
@@ -90,12 +106,28 @@
                             color="primary"
                             class="cardFila"
                           >
-                            <v-avatar
-                              size="70"
-                              class="cardAvatar"
-                            >
-                              <img :src="espera.vendedor.imagemVendedor">
-                            </v-avatar>
+                            <div v-if="espera.vendedor.imagemVendedor === ''">
+                              <v-avatar
+                                size="70"
+                                class="cardAvatar"
+                              >
+                                <img
+                                  :src="iconImage"
+                                  width="auto"
+                                >
+                              </v-avatar>
+                            </div>
+                            <div v-else>
+                              <v-avatar
+                                size="70"
+                                class="cardAvatar"
+                              >
+                                <img
+                                  :src="espera.vendedor.imagemVendedor"
+                                  width="auto"
+                                >
+                              </v-avatar>
+                            </div>
                           </v-card>
                           <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
                           <v-btn
@@ -119,12 +151,28 @@
                             color="primary"
                             class="cardFila"
                           >
-                            <v-avatar
-                              size="70"
-                              class="cardAvatar"
-                            >
-                              <img :src="espera.vendedor.imagemVendedor">
-                            </v-avatar>
+                            <div v-if="espera.vendedor.imagemVendedor === ''">
+                              <v-avatar
+                                size="70"
+                                class="cardAvatar"
+                              >
+                                <img
+                                  :src="iconImage"
+                                  width="auto"
+                                >
+                              </v-avatar>
+                            </div>
+                            <div v-else>
+                              <v-avatar
+                                size="70"
+                                class="cardAvatar"
+                              >
+                                <img
+                                  :src="espera.vendedor.imagemVendedor"
+                                  width="auto"
+                                >
+                              </v-avatar>
+                            </div>
                           </v-card>
                           <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
                           <v-btn
@@ -171,12 +219,28 @@
                           color="success"
                           class="cardFila"
                         >
-                          <v-avatar
-                            size="70"
-                            class="cardAvatar"
-                          >
-                            <img :src="atendimento.vendedor.imagemVendedor">
-                          </v-avatar>
+                          <div v-if="atendimento.vendedor.imagemVendedor === ''">
+                            <v-avatar
+                              size="70"
+                              class="cardAvatar"
+                            >
+                              <img
+                                :src="iconImage"
+                                width="auto"
+                              >
+                            </v-avatar>
+                          </div>
+                          <div v-else>
+                            <v-avatar
+                              size="70"
+                              class="cardAvatar"
+                            >
+                              <img
+                                :src="atendimento.vendedor.imagemVendedor"
+                                width="auto"
+                              >
+                            </v-avatar>
+                          </div>
                         </v-card>
                         <p class="cardText">{{ atendimento.vendedor.nomeVendedor }}</p>
                         <v-btn
@@ -248,6 +312,7 @@ export default {
       nomeVendedor: '',
       codigoVendedor: '',
       imagemVendedor: '',
+      iconImage: './img/icon.png',
       contador: '',
       movimento: {
         idVendedor: '',

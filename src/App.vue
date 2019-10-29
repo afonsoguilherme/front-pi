@@ -106,6 +106,10 @@ html {
   display: block;
   padding-top: 5px;
 }
+.cardAvatarVendedor{
+  margin: auto;
+  display: block;
+}
 .cardText{
   text-align: center;
   margin: 0px;

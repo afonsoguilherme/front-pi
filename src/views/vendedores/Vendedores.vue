@@ -38,6 +38,30 @@
             sort-by="ra"
             class="elevation-1"
           >
+            <template v-slot:item.imagemVendedor="{ item }">
+              <div v-if="item.imagemVendedor === ''">
+                <v-avatar
+                  size="50"
+                  class="cardAvatarVendedor"
+                >
+                  <img
+                    :src="iconImage"
+                    width="auto"
+                  >
+                </v-avatar>
+              </div>
+              <div v-else>
+                <v-avatar
+                  size="50"
+                  class="cardAvatarVendedor"
+                >
+                  <img
+                    :src="item.imagemVendedor"
+                    width="auto"
+                  >
+                </v-avatar>
+              </div>
+            </template>
             <template v-slot:item.edit="{ item }">
               <v-btn
                 color="grey darken-2"
@@ -115,11 +139,13 @@ export default {
       nomeVendedor: '',
       codigoVendedor: '',
       imagemVendedor: '',
+      iconImage: './img/icon.png',
       modalDelete: false,
       textoPaginacao: 'Quantidade por página',
       headers: [
         { text: 'Nome', align: 'left', value: 'nomeVendedor' },
         { text: 'Código', align: 'left', value: 'codigoVendedor' },
+        { text: 'Imagem', align: 'center', value: 'imagemVendedor', sortable: false },
         { text: 'Editar', align: 'center', value: 'edit', sortable: false },
         { text: 'Excluir', align: 'center', value: 'delete', sortable: false }
       ]
