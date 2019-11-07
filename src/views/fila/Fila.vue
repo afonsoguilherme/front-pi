@@ -247,7 +247,7 @@
                           small
                           color="success"
                           style="margin: auto; display: block;"
-                          @click="fimAtendimento(atendimento.vendedor.idVendedor)"
+                          @click="openModalVenda(atendimento.vendedor.nomeVendedor, atendimento.vendedor.idVendedor)"
                         >
                           Finalizar
                         </v-btn>
@@ -297,6 +297,26 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog
+          v-model="modalVenda"
+          max-width="400"
+        >
+          <v-card>
+            <v-card-title class="headline">Venda realizada com sucesso?</v-card-title>
+            <v-btn
+              color="success"
+              @click="fimAtentimendoVendaRealizada(idVendedor)"
+            >
+              Sim
+            </v-btn>
+            <v-btn
+              color="warning"
+              @click="fimAtendimentoVendaNaoRealizada(idVendedor)"
+            >
+              Não
+            </v-btn>    
+          </v-card>
+        </v-dialog>
       </v-container>
     </v-app>
   </div>
@@ -319,11 +339,24 @@ export default {
         tipoMovimento: '',
         statusVenda: false,
         justificativaVenda: '',
-        inicioMovimento: '2019-10-28T22:52:03.558Z',
-        finalMovimento: '2019-10-28T22:52:03.558Z'
+        horarioMovimento: {
+          horaInicioMovimento: '',
+          horaFimMovimento: '',
+          dataInicioMovimento: Date,
+          dataFimMovimento: Date
+        }
+      },
+      vendaNaoSucedida: {
+        idMovimento: '',
+        modeloProduto: '',
+        corProduto: '',
+        numeroProduto: '',
+        nomeCliente: '',
+        telefoneCliente: ''
       },
       logo: './img/icon.jpg',
       modalAcoes: false,
+      modalVenda: false,
       inheritAttrs: false,
       offsetTop: 0
     }
@@ -376,32 +409,117 @@ export default {
       this.contador = i
       this.modalAcoes = true
     },
+    openModalVenda (nome, id) {
+      this.nomeVendedor = nome
+      this.idVendedor = id
+      this.modalVenda = true
+    },
     onScroll (e) {
       this.offsetTop = e.target.scrollTop
     },
     inicioAtendimento (idVendedor) {
-      this.iniciarAtendimento(idVendedor)
-      this.modalAcoes = false
       if (idVendedor !== null) {
+        this.iniciarAtendimento(idVendedor)
+        this.modalAcoes = false
         this.movimento.idVendedor = idVendedor
+
+        const options = {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        const zeroFill = n => {
+          return ('0' + n).slice(-2);
+        }
+        const now = new Date();
+        
+				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        let hora = new Intl.DateTimeFormat([], options)
+
+        this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Venda'
         this.register(this.movimento)
       }
     },
-    fimAtendimento (idVendedor) {
-      this.finalizarAtendimento(idVendedor)
+    fimAtentimendoVendaRealizada (idVendedor) {
       if (idVendedor !== null) {
+        this.finalizarAtendimento(idVendedor)
+        this.modalVenda = false
         this.movimento.idVendedor = idVendedor
+
+        const options = {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        const zeroFill = n => {
+          return ('0' + n).slice(-2);
+        }
+        const now = new Date();
+        
+				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        let hora = new Intl.DateTimeFormat([], options)
+
+        this.movimento.horarioMovimento.horaFimMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataFimMovimento = data
+        this.movimento.horarioMovimento.horaInicioMovimento = "00:00"
+
+        console.log(this.movimento.horarioMovimento.horaFimMovimento)
+        console.log(this.movimento.horarioMovimento.dataFimMovimento)
+
         this.movimento.statusVenda = true
-        this.movimento.justificativaVenda = 'Teste atendimento'
         this.end(this.movimento)
       }
     },
-    inicioAusencia (idVendedor) {
-      this.iniciarAusencia(idVendedor)
-      this.modalAcoes = false
+    fimAtendimentoVendaNaoRealizada (idVendedor) {
       if (idVendedor !== null) {
+        this.finalizarAtendimento(idVendedor)
+        this.modalVenda = false
         this.movimento.idVendedor = idVendedor
+
+        const options = {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        const zeroFill = n => {
+          return ('0' + n).slice(-2);
+        }
+        const now = new Date();
+        
+				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        let hora = new Intl.DateTimeFormat([], options)
+
+        this.movimento.horarioMovimento.horaFimMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataFimMovimento = data
+        this.movimento.statusVenda = false
+        this.end(this.movimento)
+
+
+      }
+    },
+    inicioAusencia (idVendedor) {
+      if (idVendedor !== null) {
+        this.iniciarAusencia(idVendedor)
+        this.modalAcoes = false
+        this.movimento.idVendedor = idVendedor
+
+        const options = {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        const zeroFill = n => {
+          return ('0' + n).slice(-2);
+        }
+        const now = new Date();
+        
+				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        let hora = new Intl.DateTimeFormat([], options)
+
+        this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Ausencia'
         this.register(this.movimento)
       }

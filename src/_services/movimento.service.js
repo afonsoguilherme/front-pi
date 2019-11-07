@@ -37,6 +37,7 @@ function register (movimento) {
 }
 
 function end (movimento) {
+  console.log(movimento)
   const requestOptions = {
     method: 'POST',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
