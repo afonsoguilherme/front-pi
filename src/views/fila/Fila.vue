@@ -247,7 +247,7 @@
                           small
                           color="success"
                           style="margin: auto; display: block;"
-                          @click="openModalVenda(atendimento.vendedor.nomeVendedor, atendimento.vendedor.idVendedor)"
+                          @click="openmodalAtendimento(atendimento.vendedor.nomeVendedor, atendimento.vendedor.idVendedor)"
                         >
                           Finalizar
                         </v-btn>
@@ -298,23 +298,151 @@
           </v-card>
         </v-dialog>
         <v-dialog
-          v-model="modalVenda"
+          v-model="modalAtendimento"
           max-width="400"
         >
           <v-card>
             <v-card-title class="headline">Venda realizada com sucesso?</v-card-title>
-            <v-btn
-              color="success"
-              @click="fimAtentimendoVendaRealizada(idVendedor)"
-            >
-              Sim
-            </v-btn>
-            <v-btn
-              color="warning"
-              @click="fimAtendimentoVendaNaoRealizada(idVendedor)"
-            >
-              Não
-            </v-btn>    
+            <v-card-actions>
+              <v-btn
+                color="success"
+                @click="fimAtentimendoVendaRealizada(idVendedor)"
+              >
+                Sim
+              </v-btn>
+              <v-btn
+                color="warning"
+                @click="fimAtendimentoVendaNaoRealizada(idVendedor)"
+              >
+                Não
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="modalVendaNaoRealizada"
+          max-width="600"
+        >
+          <v-card>
+            <v-card-title class="headline">Registrar venda não sucedida</v-card-title>
+            <v-card-actions>
+              <v-layout wrap>
+                <v-flex
+                  xl12
+                  lg12
+                  md12
+                  sm12
+                  xs12
+                >
+                  <v-select
+                    v-model="vendaNaoSucedida.tipoProduto"
+                    :items="tipoProduto"
+                    outlined
+                    label="Tipo de produto"
+                  />
+                </v-flex>
+                <v-flex
+                  xl12
+                  lg12
+                  md12
+                  sm12
+                  xs12
+                >
+                  <v-select
+                    v-model="vendaNaoSucedida.marcaProduto"
+                    :items="marcaProduto"
+                    outlined
+                    label="Marca"
+                  />
+                </v-flex>
+                <v-flex
+                  xl6
+                  lg6
+                  md6
+                  sm6
+                  xs6
+                >
+                  <v-select
+                    v-model="vendaNaoSucedida.corProduto"
+                    :items="corProduto"
+                    style="padding-right:4px;"
+                    outlined
+                    label="Cor"
+                  />
+                </v-flex>
+                <v-flex
+                  xl6
+                  lg6
+                  md6
+                  sm6
+                  xs6
+                >
+                  <div v-if="vendaNaoSucedida.tipoProduto === 'Baixo' || vendaNaoSucedida.tipoProduto === 'Calçado'">
+                    <v-select
+                      v-model="vendaNaoSucedida.numeroProduto"
+                      :items="tamanhoNumProduto"
+                      style="padding-left:4px;"
+                      outlined
+                      label="Numero"
+                    />
+                  </div>
+                  <div v-else>
+                    <v-select
+                      v-model="vendaNaoSucedida.numeroProduto"
+                      :items="tamanhoAlfProduto"
+                      style="padding-left:4px;"
+                      outlined
+                      label="Numero"
+                    />
+                  </div>
+                </v-flex>
+                <v-flex
+                  xl12
+                  lg12
+                  md12
+                  sm12
+                  xs12
+                >
+                  <v-text-field
+                    v-model="vendaNaoSucedida.descricaoProduto"
+                    label="Descrição produto"
+                    outlined
+                  />
+                </v-flex>
+                <v-flex
+                  xl12
+                  lg12
+                  md12
+                  sm12
+                  xs12
+                >
+                  <v-text-field
+                    v-model="vendaNaoSucedida.nomeCliente"
+                    label="Nome cliente"
+                    outlined
+                  />
+                </v-flex>
+                <v-flex
+                  xl12
+                  lg12
+                  md12
+                  sm12
+                  xs12
+                >
+                  <v-text-field
+                    v-model="vendaNaoSucedida.telefoneCliente"
+                    label="Número cliente"
+                    outlined
+                  />
+                  <v-btn
+                    color="success"
+                    @click="registrarVendaNaoRealizada()"
+                  >
+                    Registrar
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </v-container>
@@ -340,23 +468,33 @@ export default {
         statusVenda: false,
         justificativaVenda: '',
         horarioMovimento: {
-          horaInicioMovimento: '',
-          horaFimMovimento: '',
+          horaInicioMovimento: Date,
+          horaFinalMovimento: Date,
           dataInicioMovimento: Date,
-          dataFimMovimento: Date
+          dataFinalMovimento: Date
         }
       },
       vendaNaoSucedida: {
+        idVendedor: '',
         idMovimento: '',
-        modeloProduto: '',
+        tipoProduto: '',
+        marcaProduto: '',
         corProduto: '',
         numeroProduto: '',
+        descricaoProduto: '',
         nomeCliente: '',
         telefoneCliente: ''
       },
       logo: './img/icon.jpg',
       modalAcoes: false,
-      modalVenda: false,
+      modalAtendimento: false,
+      modalVendaNaoRealizada: false,
+      idVendedorVendaNaoSucedida: '',
+      marcaProduto: ['Marca 1', 'Marca 2', 'Marca 3', 'Marca 4'],
+      corProduto: ['Cor 1', 'Cor 2', 'Cor 3', 'Cor 4'],
+      tipoProduto: ['Cima', 'Baixo', 'Banho', 'Calçado'],
+      tamanhoAlfProduto: ['PP', 'P', 'M', 'G', 'GG'],
+      tamanhoNumProduto: ['33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'],
       inheritAttrs: false,
       offsetTop: 0
     }
@@ -400,8 +538,11 @@ export default {
       finalizarAusencia: 'finalizarAusencia'
     }),
     ...mapActions('movimentos', {
-      register: 'register',
+      registerMovimento: 'register',
       end: 'end'
+    }),
+    ...mapActions('vendasNaoSucedidas', {
+      registerVendaNaoSucedida: 'register'
     }),
     openModalAcoes (nome, id, i) {
       this.nomeVendedor = nome
@@ -409,10 +550,10 @@ export default {
       this.contador = i
       this.modalAcoes = true
     },
-    openModalVenda (nome, id) {
+    openmodalAtendimento (nome, id) {
       this.nomeVendedor = nome
       this.idVendedor = id
-      this.modalVenda = true
+      this.modalAtendimento = true
     },
     onScroll (e) {
       this.offsetTop = e.target.scrollTop
@@ -429,23 +570,23 @@ export default {
           minute: 'numeric'
         }
         const zeroFill = n => {
-          return ('0' + n).slice(-2);
+          return ('0' + n).slice(-2)
         }
-        const now = new Date();
-        
-				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        const now = new Date()
+
         let hora = new Intl.DateTimeFormat([], options)
+        let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
         this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Venda'
-        this.register(this.movimento)
+        this.registerMovimento(this.movimento)
       }
     },
     fimAtentimendoVendaRealizada (idVendedor) {
       if (idVendedor !== null) {
         this.finalizarAtendimento(idVendedor)
-        this.modalVenda = false
+        this.modalAtendimento = false
         this.movimento.idVendedor = idVendedor
 
         const options = {
@@ -454,28 +595,24 @@ export default {
           minute: 'numeric'
         }
         const zeroFill = n => {
-          return ('0' + n).slice(-2);
+          return ('0' + n).slice(-2)
         }
-        const now = new Date();
-        
-				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        const now = new Date()
+
         let hora = new Intl.DateTimeFormat([], options)
+        let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaFimMovimento = hora.format(new Date())
-        this.movimento.horarioMovimento.dataFimMovimento = data
-        this.movimento.horarioMovimento.horaInicioMovimento = "00:00"
-
-        console.log(this.movimento.horarioMovimento.horaFimMovimento)
-        console.log(this.movimento.horarioMovimento.dataFimMovimento)
-
+        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = true
+
         this.end(this.movimento)
       }
     },
     fimAtendimentoVendaNaoRealizada (idVendedor) {
       if (idVendedor !== null) {
         this.finalizarAtendimento(idVendedor)
-        this.modalVenda = false
+        this.modalAtendimento = false
         this.movimento.idVendedor = idVendedor
 
         const options = {
@@ -484,19 +621,26 @@ export default {
           minute: 'numeric'
         }
         const zeroFill = n => {
-          return ('0' + n).slice(-2);
+          return ('0' + n).slice(-2)
         }
-        const now = new Date();
-        
-				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        const now = new Date()
+
         let hora = new Intl.DateTimeFormat([], options)
+        let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaFimMovimento = hora.format(new Date())
-        this.movimento.horarioMovimento.dataFimMovimento = data
+        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
+
         this.end(this.movimento)
-
-
+        this.vendaNaoSucedida.idVendedor = idVendedor
+        this.modalVendaNaoRealizada = true
+      }
+    },
+    registrarVendaNaoRealizada () {
+      if (this.vendedorVendaNaoRealizada !== null || this.vendedorVendaNaoRealizada !== '') {
+        this.registerVendaNaoSucedida(this.vendaNaoSucedida)
+        this.modalVendaNaoRealizada = false
       }
     },
     inicioAusencia (idVendedor) {
@@ -511,25 +655,42 @@ export default {
           minute: 'numeric'
         }
         const zeroFill = n => {
-          return ('0' + n).slice(-2);
+          return ('0' + n).slice(-2)
         }
-        const now = new Date();
-        
-				let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T00:00:00.00Z'      
+        const now = new Date()
+
         let hora = new Intl.DateTimeFormat([], options)
+        let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
         this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Ausencia'
-        this.register(this.movimento)
+
+        this.registerMovimento(this.movimento)
       }
     },
     fimAusencia (idVendedor) {
-      this.finalizarAusencia(idVendedor)
       if (idVendedor !== null) {
+        this.finalizarAusencia(idVendedor)
         this.movimento.idVendedor = idVendedor
+
+        const options = {
+          timeZone: 'America/Sao_Paulo',
+          hour: 'numeric',
+          minute: 'numeric'
+        }
+        const zeroFill = n => {
+          return ('0' + n).slice(-2)
+        }
+        const now = new Date()
+
+        let hora = new Intl.DateTimeFormat([], options)
+        let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
+
+        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
-        this.movimento.justificativaVenda = 'Teste ausencia'
+
         this.end(this.movimento)
       }
     }
