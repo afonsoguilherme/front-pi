@@ -6,6 +6,7 @@
     floating
     persistent
     mobile-break-point="991"
+    color="grey darken-2"
     width="260"
   >
     <v-layout
@@ -22,16 +23,18 @@
         </div>
       </template>
       <v-list
-        dence
+        shaped
         nav
+        dark
       >
         <v-list
+          id="inspire"
           class="subtitle-1"
           style="text-align:center"
         >
-          Controle de Atendimento
+          CONTROLE DE ATENDIMENTO
         </v-list>
-        <v-list-item-group color="orange darken-4">
+        <v-list-item-group color="deep-orange accent-2">
           <div
             v-for="(item, i) in links"
             :key="i"
@@ -75,9 +78,19 @@ export default {
         divider: true
       },
       {
-        to: '/fila',
-        icon: 'mdi-comment-arrow-right-outline',
-        text: 'Fila de atendimentos'
+        to: '/vendedores',
+        icon: 'mdi-account-group',
+        text: 'Vendedores'
+      },
+      {
+        to: '/movimentosTipoVenda',
+        icon: 'mdi-shopping',
+        text: 'Vendas'
+      },
+      {
+        to: '/movimentosTipoAusencia',
+        icon: 'mdi-exit-run mdi-flip-h',
+        text: 'Saídas'
       },
       {
         to: '/graficos',
@@ -85,9 +98,9 @@ export default {
         text: 'Gráficos'
       },
       {
-        to: '/vendedores',
-        icon: 'mdi-account-group',
-        text: 'Vendedores'
+        to: '/fila',
+        icon: 'mdi-comment-arrow-right-outline',
+        text: 'Fila de atendimentos'
       },
       {
         to: '/usuarios',

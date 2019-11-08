@@ -18,7 +18,7 @@
           >
             <material-card
               color="grey darken-2"
-              title="Cadastrar vendedor"
+              title="Informe os dados abaixo"
             >
               <v-form
                 ref="formCadastro"
@@ -26,47 +26,40 @@
                 lazy-validation
               >
                 <v-text-field
-                  v-model="vendedor.nomeVendedor"
+                  v-model="usuario.nome"
                   :rules="nomeRules"
                   label="Nome"
                   required
                 />
                 <v-text-field
-                  v-model="vendedor.codigoVendedor"
-                  :rules="codigoRules"
-                  label="Código"
+                  v-model="usuario.login"
+                  :rules="loginRules"
+                  label="Login"
                   required
                 />
-                <img
-                  v-if="imageUrl"
-                  :src="imageUrl"
-                  height="150"
-                >
                 <v-text-field
-                  v-model="imageName"
-                  prepend-icon="mdi-paperclip"
-                  label="Selecionar a imagem"
-                  @click="pickFile"
+                  v-model="usuario.senha"
+                  :append-icon="show4 ? 'mdi-eye-off' : 'mdi-eye-outline'"
+                  :rules="[rules.required, rules.min]"
+                  :type="show4 ? 'text' : 'password'"
+                  clearable
+                  label="Senha"
+                  color="primary"
+                  required
+                  @click:append="show4 = !show4"
                 />
-                <input
-                  ref="image"
-                  type="file"
-                  style="display: none"
-                  accept="image/*"
-                  @change="onFilePicked"
-                >
                 <v-btn
                   :disabled="!valid"
                   color="success"
                   class="mr-4"
                   @click="handleSubmit"
                 >
-                  Cadastrar
+                  Concluir
                 </v-btn>
                 <v-btn
                   color="error"
                   class="mr-4"
-                  to="/vendedores"
+                  to="/usuarios"
                 >
                   Cancelar
                 </v-btn>
@@ -80,61 +73,44 @@
 </template>
 
 <script>
+// import { mapState, mapActions } from 'vuex'
 import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
+      show4: false,
+      password: 'Password',
       valid: true,
-      imageName: '',
-      imageUrl: '',
-      imageFile: '',
-      vendedor: {
-        nomeVendedor: '',
-        codigoVendedor: '',
-        imagemVendedor: ''
+      usuario: {
+        nome: '',
+        login: '',
+        senha: ''
       },
       nomeRules: [
         v => !!v || 'O campo Nome é obrigatório'
       ],
-      codigoRules: [
+      loginRules: [
         v => !!v || 'O campo Login é obrigatório'
-      ]
+      ],
+      rules: {
+        required: v => !!v || 'O campo Senha é obrigatório.',
+        min: v => (v && v.length >= 8) || 'Mínimo de 8 caracteres'
+      },
+      checkbox: false
     }
   },
   computed: {},
   created () {},
   methods: {
-    ...mapActions('vendedores', {
+    ...mapActions('usuarios', {
       register: 'register'
     }),
     handleSubmit () {
       if (this.$refs.formCadastro.validate()) {
-        this.register(this.vendedor)
+        console.log('Usuario a ser cadastrado: ' + JSON.stringify(this.usuario))
+        this.register(this.usuario)
         this.$refs.formCadastro.reset()
-      }
-    },
-    pickFile () {
-      this.$refs.image.click()
-    },
-    onFilePicked (e) {
-      const files = e.target.files
-      if (files[0] !== undefined) {
-        this.imageName = files[0].name
-        if (this.imageName.lastIndexOf('.') <= 0) {
-          return
-        }
-        const fr = new FileReader()
-        fr.readAsDataURL(files[0])
-        fr.addEventListener('load', () => {
-          this.imageUrl = fr.result
-          this.vendedor.imagemVendedor = this.imageUrl
-          this.imageFile = files[0]
-        })
-      } else {
-        this.imageName = ''
-        this.imageFile = ''
-        this.imageUrl = ''
       }
     }
   }

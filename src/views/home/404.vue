@@ -14,7 +14,7 @@
           <h2 class="errorText">Desculpe, essa página não existe.</h2>
           <div>
             <v-btn
-              color="primary"
+              color="orange"
               class="errorButton"
               to="/"
             >

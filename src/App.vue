@@ -35,9 +35,6 @@ export default {
 @import '@/styles/index.scss';
 @import url('https://fonts.googleapis.com/css?family=Exo+2:700i&display=swap');
 
-html {
-  background: #EEEEEE;
-}
 .v-toolbar {
   contain: layout;
   flex: 0;
@@ -73,18 +70,27 @@ html {
   width: 70px;
   flex: 0 1 auto;
 }
+.fundo {
+  background-color: #FBE9E7;
+  background-size: cover;
+}
+.fundoMenu {
+  background-color: #FFFFFF;
+  background-size: cover;
+}
 .fundoLogin {
   background-color: #F16422;
-  // background-image: url(../public/img/fundo2.jpg);
   background-size: cover;
 }
 .fundoFila {
   background-color: #616161;
-  // background-image: url(../public/img/fundo2.jpg);
   background-size: cover;
 }
 #inspire {
   font-family: 'Exo 2', sans-serif;
+  background: none;
+}
+#pacific {
   background: none;
 }
 .row {
@@ -115,4 +121,5 @@ html {
   margin: 0px;
   padding-top: 10px;
 }
+
 </style>

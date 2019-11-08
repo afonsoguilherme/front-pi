@@ -26,6 +26,22 @@ export default {
         }
       )
   },
+  getAllTipoVenda ({ commit }) {
+    commit('getAllTipoVendaRequest')
+    movimentoService.getAllTipoVenda()
+      .then(
+        movimentos => commit('getAllTipoVendaSuccess', movimentos),
+        error => commit('getAllTipoVendaFailure', error)
+      )
+  },
+  getAllTipoAusencia ({ commit }) {
+    commit('getAllTipoAusenciaRequest')
+    movimentoService.getAllTipoAusencia()
+      .then(
+        movimentos => commit('getAllTipoAusenciaSuccess', movimentos),
+        error => commit('getAllTipoAusenciaFailure', error)
+      )
+  },
   register ({ dispatch, commit }, movimento) {
     commit('registerRequest', movimento)
     movimentoService.register(movimento)

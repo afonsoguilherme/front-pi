@@ -1,46 +1,52 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl
-  >
-    <v-layout
-      align-center
-      column
-    >
+  <div
+    id="app"
+    class="fundo">
+    <v-app id="pacific">
       <v-container
-        grid-list-md
-        text-xs-center
+        fill-height
+        fluid
+        grid-list-xl
       >
         <v-layout
-          row
-          wrap
+          align-center
+          column
         >
-          <v-flex
-            xl12
-            lg12
-            md12
-            sm12
-            xs12
+          <v-container
+            grid-list-md
+            text-xs-center
           >
-            <v-card
-              dark
-              color="grey darken-2"
+            <v-layout
+              row
+              wrap
             >
-              <v-card-text>
-                <v-list-item-title
-                  class="subtitle-1"
-                  style="color: white; text-align: center;"
+              <v-flex
+                xl12
+                lg12
+                md12
+                sm12
+                xs12
+              >
+                <v-card
+                  dark
+                  color="grey darken-2"
                 >
-                  Bem vindo
-                </v-list-item-title>
-              </v-card-text>
-            </v-card>
-          </v-flex>
+                  <v-card-text>
+                    <v-list-item-title
+                      class="subtitle-1"
+                      style="color: white; text-align: center;"
+                    >
+                      Bem vindo
+                    </v-list-item-title>
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-layout>
       </v-container>
-    </v-layout>
-  </v-container>
+    </v-app>
+  </div>
 </template>
 
 <script>

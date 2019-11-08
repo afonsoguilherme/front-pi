@@ -17,6 +17,24 @@ export default {
   getPorVendedorFailure (state, error) {
     state.allVendedor = { error }
   },
+  getAllTipoVendaRequest (state) {
+    state.all = { loading: true }
+  },
+  getAllTipoVendaSuccess (state, movimentos) {
+    state.all = { items: movimentos }
+  },
+  getAllTipoVendaFailure (state, error) {
+    state.all = { error }
+  },
+  getAllTipoAusenciaRequest (state) {
+    state.all = { loading: true }
+  },
+  getAllTipoAusenciaSuccess (state, movimentos) {
+    state.all = { items: movimentos }
+  },
+  getAllTipoAusenciaFailure (state, error) {
+    state.all = { error }
+  },
   registerRequest (state, movimento) {
     state.status = { registering: true }
   },

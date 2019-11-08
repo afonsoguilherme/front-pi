@@ -1,76 +1,82 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl
-  >
-    <v-layout wrap>
-      <v-flex
-        xl12
-        lg12
-        md12
-        sm12
-        xs12
+  <div
+    id="app"
+    class="fundo">
+    <v-app id="pacific">
+      <v-container
+        fill-height
+        fluid
+        grid-list-xl
       >
-        <material-card
-          color="grey darken-2"
-          title="Cadastrar vendedor"
-        >
-          <v-form
-            ref="formCadastro"
-            v-model="valid"
-            lazy-validation
+        <v-layout wrap>
+          <v-flex
+            xl12
+            lg12
+            md12
+            sm12
+            xs12
           >
-            <v-text-field
-              v-model="vendedor.nomeVendedor"
-              :rules="nomeRules"
-              label="Nome"
-              required
-            />
-            <v-text-field
-              v-model="vendedor.codigoVendedor"
-              :rules="codigoRules"
-              label="Código"
-              required
-            />
-            <img
-              v-if="vendedor.imagemVendedor"
-              :src="vendedor.imagemVendedor"
-              height="150"
+            <material-card
+              color="grey darken-2"
+              title="Cadastrar vendedor"
             >
-            <v-text-field
-              v-model="imageName"
-              prepend-icon="mdi-paperclip"
-              label="Selecionar nova imagem"
-              @click="pickFile"
-            />
-            <input
-              ref="image"
-              type="file"
-              style="display: none"
-              accept="image/*"
-              @change="onFilePicked"
-            >
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="handleSubmit()"
-            >
-              Cadastrar
-            </v-btn>
-            <v-btn
-              color="error"
-              class="mr-4"
-              to="/vendedores"
-            >
-              Cancelar
-            </v-btn>
-          </v-form>
-        </material-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+              <v-form
+                ref="formCadastro"
+                v-model="valid"
+                lazy-validation
+              >
+                <v-text-field
+                  v-model="vendedor.nomeVendedor"
+                  :rules="nomeRules"
+                  label="Nome"
+                  required
+                />
+                <v-text-field
+                  v-model="vendedor.codigoVendedor"
+                  :rules="codigoRules"
+                  label="Código"
+                  required
+                />
+                <img
+                  v-if="vendedor.imagemVendedor"
+                  :src="vendedor.imagemVendedor"
+                  height="150"
+                >
+                <v-text-field
+                  v-model="imageName"
+                  prepend-icon="mdi-paperclip"
+                  label="Selecionar nova imagem"
+                  @click="pickFile"
+                />
+                <input
+                  ref="image"
+                  type="file"
+                  style="display: none"
+                  accept="image/*"
+                  @change="onFilePicked"
+                >
+                <v-btn
+                  :disabled="!valid"
+                  color="success"
+                  class="mr-4"
+                  @click="handleSubmit()"
+                >
+                  Cadastrar
+                </v-btn>
+                <v-btn
+                  color="error"
+                  class="mr-4"
+                  to="/vendedores"
+                >
+                  Cancelar
+                </v-btn>
+              </v-form>
+            </material-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-app>
+  </div>
 </template>
 
 <script>

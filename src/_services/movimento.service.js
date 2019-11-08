@@ -5,6 +5,8 @@ import { userService, config } from '.'
 export const movimentoService = {
   getAll,
   getPorVendedor,
+  getAllTipoVenda,
+  getAllTipoAusencia,
   register,
   end,
   update,
@@ -25,6 +27,22 @@ function getPorVendedor (idVendedor) {
     headers: { ...authHeader(), 'Content-Type': 'application/json' }
   }
   return fetch(`${config.apiUrl}/Movimento/ObterMovimentoPorVendedor/${idVendedor}`, requestOptions).then(handleResponse)
+}
+
+function getAllTipoVenda () {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Movimento/ObterMovimentosTipoVenda`, requestOptions).then(handleResponse)
+}
+
+function getAllTipoAusencia () {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Movimento/ObterMovimentosTipoAusencia`, requestOptions).then(handleResponse)
 }
 
 function register (movimento) {

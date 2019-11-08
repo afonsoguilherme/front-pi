@@ -1,133 +1,137 @@
 <template>
-  <v-container
-    fill-height
-    fluid
-    grid-list-xl
-  >
-    <v-layout wrap>
-      <v-flex
-        xl12
-        lg12
-        md12
-        sm12
-        xs12
+  <div
+    id="app"
+    class="fundo">
+    <v-app id="pacific">
+      <v-container
+        fill-height
+        fluid
+        grid-list-xl
       >
-        <material-card
-          color="grey darken-2"
-          title="Vendedores"
-        >
-          <v-spacer/>
-          <v-btn
-            color="grey darken-2"
-            to="/cadastrarVendedor"
+        <v-layout wrap>
+          <v-flex
+            xl12
+            lg12
+            md12
+            sm12
+            xs12
           >
-            <v-icon
-              left
-              color="light-green accent-4"
-            >mdi-plus-circle</v-icon>
-            Cadastrar
-          </v-btn>
-          <v-spacer/>
-          <v-data-table
-            :headers="headers"
-            :items="vendedores"
-            :footer-props="{
-              showFirstLastPage: true,
-              itemsPerPageText: 'Quantidade por página'
-            }"
-            sort-by="ra"
-            class="elevation-1"
-          >
-            <template v-slot:item.imagemVendedor="{ item }">
-              <div v-if="item.imagemVendedor === ''">
-                <v-avatar
-                  size="50"
-                  class="cardAvatarVendedor"
-                >
-                  <img
-                    :src="iconImage"
-                    width="auto"
-                  >
-                </v-avatar>
-              </div>
-              <div v-else>
-                <v-avatar
-                  size="50"
-                  class="cardAvatarVendedor"
-                >
-                  <img
-                    :src="item.imagemVendedor"
-                    width="auto"
-                  >
-                </v-avatar>
-              </div>
-            </template>
-            <template v-slot:item.edit="{ item }">
+            <material-card
+              color="grey darken-2"
+              title="Vendedores"
+            >
+              <v-spacer/>
               <v-btn
                 color="grey darken-2"
-                @click="getVendedorEdit(item)"
+                to="/cadastrarVendedor"
               >
                 <v-icon
                   left
-                  color="cyan accent-4"
-                >mdi-pencil-circle</v-icon>
-                Editar
+                  color="light-green accent-4"
+                >mdi-plus-circle</v-icon>
+                Cadastrar
               </v-btn>
-            </template>
-            <template v-slot:item.delete="{ item }">
-              <v-btn
-                color="grey darken-2"
-                @click="openModalDelete(item.nomeVendedor, item.idVendedor)"
+              <v-spacer/>
+              <v-data-table
+                :headers="headers"
+                :items="vendedores"
+                :footer-props="{
+                  showFirstLastPage: true,
+                  itemsPerPageText: 'Quantidade por página'
+                }"
+                sort-by="ra"
+                class="elevation-1"
               >
-                <v-icon
-                  left
-                  color="red accent-2"
-                >mdi-delete-circle</v-icon>
-                Excluir
-              </v-btn>
-            </template>
-            <template v-slot:no-data>
-              <v-alert
-                :value="true"
-                color="error"
-                icon="mdi-alert"
-              >Não existem vendedores cadastrados!</v-alert>
-            </template>
-          </v-data-table>
-        </material-card>
-        <v-dialog
-          v-model="modalDelete"
-          max-width="350"
-        >
-          <v-card>
-            <v-card-title class="headline">Deseja realmente excluir o vendedor?</v-card-title>
-            <v-card-text>
-              O vendedor {{ nomeVendedor }} será excluido permanentemente do sistema!
-            </v-card-text>
-            <v-card-actions>
-              <div class="flex-grow-1"/>
-
-              <v-btn
-                color="green darken-1"
-                text
-                @click="deletarVendedor(idVendedor)"
-              >
-                Confirmar
-              </v-btn>
-
-              <v-btn
-                color="red darken-1"
-                text
-                @click="modalDelete = false"
-              >
-                Cancelar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-flex>
-    </v-layout>
-  </v-container>
+                <template v-slot:item.imagemVendedor="{ item }">
+                  <div v-if="item.imagemVendedor === ''">
+                    <v-avatar
+                      size="50"
+                      class="cardAvatarVendedor"
+                    >
+                      <img
+                        :src="iconImage"
+                        width="auto"
+                      >
+                    </v-avatar>
+                  </div>
+                  <div v-else>
+                    <v-avatar
+                      size="50"
+                      class="cardAvatarVendedor"
+                    >
+                      <img
+                        :src="item.imagemVendedor"
+                        width="auto"
+                      >
+                    </v-avatar>
+                  </div>
+                </template>
+                <template v-slot:item.edit="{ item }">
+                  <v-btn
+                    color="grey darken-2"
+                    @click="getVendedorEdit(item)"
+                  >
+                    <v-icon
+                      left
+                      color="cyan accent-4"
+                    >mdi-pencil-circle</v-icon>
+                    Editar
+                  </v-btn>
+                </template>
+                <template v-slot:item.delete="{ item }">
+                  <v-btn
+                    color="grey darken-2"
+                    @click="openModalDelete(item.nomeVendedor, item.idVendedor)"
+                  >
+                    <v-icon
+                      left
+                      color="red accent-2"
+                    >mdi-delete-circle</v-icon>
+                    Excluir
+                  </v-btn>
+                </template>
+                <template v-slot:no-data>
+                  <v-alert
+                    :value="true"
+                    color="error"
+                    icon="mdi-alert"
+                  >Não existem vendedores cadastrados!</v-alert>
+                </template>
+              </v-data-table>
+            </material-card>
+            <v-dialog
+              v-model="modalDelete"
+              max-width="350"
+            >
+              <v-card>
+                <v-card-title class="headline">Deseja realmente excluir o vendedor?</v-card-title>
+                <v-card-text>
+                  O vendedor {{ nomeVendedor }} será excluido permanentemente do sistema!
+                </v-card-text>
+                <v-card-actions>
+                  <div class="flex-grow-1"/>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="deletarVendedor(idVendedor)"
+                  >
+                    Confirmar
+                  </v-btn>
+                  <v-btn
+                    color="red darken-1"
+                    text
+                    @click="modalDelete = false"
+                  >
+                    Cancelar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -159,7 +163,7 @@ export default {
     pages () {
       try {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.pagination.totalItems = this.exames.length
+        this.pagination.totalItems = this.vendedores.length
         if (this.pagination.totalItems !== undefined) {
           if (this.pagination.rowsPerPage == null || this.pagination.totalItems == null) {
             return 0

@@ -322,126 +322,138 @@
         <v-dialog
           v-model="modalVendaNaoRealizada"
           max-width="600"
+          persistent
         >
           <v-card>
             <v-card-title class="headline">Registrar venda não sucedida</v-card-title>
             <v-card-actions>
-              <v-layout wrap>
-                <v-flex
-                  xl12
-                  lg12
-                  md12
-                  sm12
-                  xs12
-                >
-                  <v-select
-                    v-model="vendaNaoSucedida.tipoProduto"
-                    :items="tipoProduto"
-                    outlined
-                    label="Tipo de produto"
-                  />
-                </v-flex>
-                <v-flex
-                  xl12
-                  lg12
-                  md12
-                  sm12
-                  xs12
-                >
-                  <v-select
-                    v-model="vendaNaoSucedida.marcaProduto"
-                    :items="marcaProduto"
-                    outlined
-                    label="Marca"
-                  />
-                </v-flex>
-                <v-flex
-                  xl6
-                  lg6
-                  md6
-                  sm6
-                  xs6
-                >
-                  <v-select
-                    v-model="vendaNaoSucedida.corProduto"
-                    :items="corProduto"
-                    style="padding-right:4px;"
-                    outlined
-                    label="Cor"
-                  />
-                </v-flex>
-                <v-flex
-                  xl6
-                  lg6
-                  md6
-                  sm6
-                  xs6
-                >
-                  <div v-if="vendaNaoSucedida.tipoProduto === 'Baixo' || vendaNaoSucedida.tipoProduto === 'Calçado'">
-                    <v-select
-                      v-model="vendaNaoSucedida.numeroProduto"
-                      :items="tamanhoNumProduto"
-                      style="padding-left:4px;"
-                      outlined
-                      label="Numero"
-                    />
-                  </div>
-                  <div v-else>
-                    <v-select
-                      v-model="vendaNaoSucedida.numeroProduto"
-                      :items="tamanhoAlfProduto"
-                      style="padding-left:4px;"
-                      outlined
-                      label="Numero"
-                    />
-                  </div>
-                </v-flex>
-                <v-flex
-                  xl12
-                  lg12
-                  md12
-                  sm12
-                  xs12
-                >
-                  <v-text-field
-                    v-model="vendaNaoSucedida.descricaoProduto"
-                    label="Descrição produto"
-                    outlined
-                  />
-                </v-flex>
-                <v-flex
-                  xl12
-                  lg12
-                  md12
-                  sm12
-                  xs12
-                >
-                  <v-text-field
-                    v-model="vendaNaoSucedida.nomeCliente"
-                    label="Nome cliente"
-                    outlined
-                  />
-                </v-flex>
-                <v-flex
-                  xl12
-                  lg12
-                  md12
-                  sm12
-                  xs12
-                >
-                  <v-text-field
-                    v-model="vendaNaoSucedida.telefoneCliente"
-                    label="Número cliente"
-                    outlined
-                  />
-                  <v-btn
-                    color="success"
-                    @click="registrarVendaNaoRealizada()"
+              <v-form
+                ref="formVendaNaoSucedida"
+                v-model="valid"
+                lazy-validation
+              >
+                <v-layout wrap>
+                  <v-flex
+                    xl12
+                    lg12
+                    md12
+                    sm12
+                    xs12
                   >
-                    Registrar
-                  </v-btn>
-                </v-flex>
-              </v-layout>
+                    <v-select
+                      v-model="vendaNaoSucedida.tipoProduto"
+                      :items="tipoProduto"
+                      :rules="tipoProdutoRules"
+                      outlined
+                      label="Tipo de produto"
+                    />
+                  </v-flex>
+                  <v-flex
+                    xl12
+                    lg12
+                    md12
+                    sm12
+                    xs12
+                  >
+                    <v-select
+                      v-model="vendaNaoSucedida.marcaProduto"
+                      :items="marcaProduto"
+                      :rules="marcaProdutoRules"
+                      outlined
+                      label="Marca"
+                    />
+                  </v-flex>
+                  <v-flex
+                    xl6
+                    lg6
+                    md6
+                    sm6
+                    xs6
+                  >
+                    <v-select
+                      v-model="vendaNaoSucedida.corProduto"
+                      :items="corProduto"
+                      :rules="corProdutoRules"
+                      style="padding-right:4px;"
+                      outlined
+                      label="Cor"
+                    />
+                  </v-flex>
+                  <v-flex
+                    xl6
+                    lg6
+                    md6
+                    sm6
+                    xs6
+                  >
+                    <div v-if="vendaNaoSucedida.tipoProduto === 'Baixo' || vendaNaoSucedida.tipoProduto === 'Calçado'">
+                      <v-select
+                        v-model="vendaNaoSucedida.numeroProduto"
+                        :items="tamanhoNumProduto"
+                        :rules="numeroProdutoRules"
+                        style="padding-left:4px;"
+                        outlined
+                        label="Numero"
+                      />
+                    </div>
+                    <div v-else>
+                      <v-select
+                        v-model="vendaNaoSucedida.numeroProduto"
+                        :items="tamanhoAlfProduto"
+                        :rules="numeroProdutoRules"
+                        style="padding-left:4px;"
+                        outlined
+                        label="Numero"
+                      />
+                    </div>
+                  </v-flex>
+                  <v-flex
+                    xl12
+                    lg12
+                    md12
+                    sm12
+                    xs12
+                  >
+                    <v-text-field
+                      v-model="vendaNaoSucedida.descricaoProduto"
+                      label="Descrição produto"
+                      outlined
+                    />
+                  </v-flex>
+                  <v-flex
+                    xl12
+                    lg12
+                    md12
+                    sm12
+                    xs12
+                  >
+                    <v-text-field
+                      v-model="vendaNaoSucedida.nomeCliente"
+                      label="Nome cliente"
+                      outlined
+                    />
+                  </v-flex>
+                  <v-flex
+                    xl12
+                    lg12
+                    md12
+                    sm12
+                    xs12
+                  >
+                    <v-text-field
+                      v-model="vendaNaoSucedida.telefoneCliente"
+                      label="Número cliente"
+                      outlined
+                    />
+                    <v-btn
+                      color="success"
+                      @click="registrarVendaNaoRealizada()"
+                    >
+                      Registrar
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-form>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -489,12 +501,17 @@ export default {
       modalAcoes: false,
       modalAtendimento: false,
       modalVendaNaoRealizada: false,
+      valid: true,
       idVendedorVendaNaoSucedida: '',
       marcaProduto: ['Marca 1', 'Marca 2', 'Marca 3', 'Marca 4'],
       corProduto: ['Cor 1', 'Cor 2', 'Cor 3', 'Cor 4'],
       tipoProduto: ['Cima', 'Baixo', 'Banho', 'Calçado'],
       tamanhoAlfProduto: ['PP', 'P', 'M', 'G', 'GG'],
       tamanhoNumProduto: ['33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'],
+      tipoProdutoRules: [ v => !!v || 'O campo tipo é obrigatório' ],
+      marcaProdutoRules: [ v => !!v || 'O campo marca é obrigatório' ],
+      corProdutoRules: [ v => !!v || 'O campo cor é obrigatório' ],
+      numeroProdutoRules: [ v => !!v || 'O campo número é obrigatório' ],
       inheritAttrs: false,
       offsetTop: 0
     }
@@ -638,9 +655,12 @@ export default {
       }
     },
     registrarVendaNaoRealizada () {
-      if (this.vendedorVendaNaoRealizada !== null || this.vendedorVendaNaoRealizada !== '') {
-        this.registerVendaNaoSucedida(this.vendaNaoSucedida)
-        this.modalVendaNaoRealizada = false
+      if (this.$refs.formVendaNaoSucedida.validate()) {
+        if (this.vendedorVendaNaoRealizada !== null || this.vendedorVendaNaoRealizada !== '') {
+          this.registerVendaNaoSucedida(this.vendaNaoSucedida)
+          this.modalVendaNaoRealizada = false
+          this.$refs.formVendaNaoSucedida.reset()
+        }
       }
     },
     inicioAusencia (idVendedor) {
