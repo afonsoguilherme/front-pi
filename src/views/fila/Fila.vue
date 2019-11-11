@@ -598,6 +598,7 @@ export default {
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Venda'
         this.registerMovimento(this.movimento)
+        this.$router.go()
       }
     },
     fimAtentimendoVendaRealizada (idVendedor) {
@@ -624,6 +625,7 @@ export default {
         this.movimento.statusVenda = true
 
         this.end(this.movimento)
+        this.$router.go()
       }
     },
     fimAtendimentoVendaNaoRealizada (idVendedor) {
@@ -660,6 +662,7 @@ export default {
           this.registerVendaNaoSucedida(this.vendaNaoSucedida)
           this.modalVendaNaoRealizada = false
           this.$refs.formVendaNaoSucedida.reset()
+          this.$router.go()
         }
       }
     },
@@ -687,6 +690,7 @@ export default {
         this.movimento.tipoMovimento = 'Ausencia'
 
         this.registerMovimento(this.movimento)
+        this.$router.go()
       }
     },
     fimAusencia (idVendedor) {
@@ -712,6 +716,7 @@ export default {
         this.movimento.statusVenda = false
 
         this.end(this.movimento)
+        this.$router.go()
       }
     }
   }
