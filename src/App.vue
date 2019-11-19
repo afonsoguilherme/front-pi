@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <core-toolbar v-if="$route.path !== '/login' && $route.path !== '/404'"/>
+    <core-toolbar v-if="$route.path !== '/login' && $route.path !== '/404' && $route.path !== '/fila'"/>
     <core-drawer v-if="$route.path !== '/login' && $route.path !== '/404' && $route.path !== '/fila'"/>
     <core-view />
   </v-app>
@@ -120,6 +120,101 @@ export default {
   text-align: center;
   margin: 0px;
   padding-top: 10px;
+}
+.ct-tooltip {
+  position: absolute;
+  display: inline-block;
+  min-width: 5em;
+  padding: 8px 10px;
+  background: #383838;
+  color: #fff;
+  text-align: center;
+  pointer-events: none;
+  z-index: 100;
+  transition: opacity .2s linear;
+}
+.ct-tooltip:before {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  width: 0;
+  pointer-events: none;
+  border-color: rgba(251, 249, 228, 0);
+  border-top-color: #383838;
+  border-width: 7px;
+  margin-left: -8px;
+}
+.ct-tooltip.hide {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+.ct-area, .ct-line {
+  pointer-events: none;
+}
+.ct-square {
+  margin-top: 30px;
+  display: block;
+  position: relative;
+  width: 95% !important;
+}
+.ct-chart {
+  position: relative;
+}
+.ct-legend {
+  position: relative;
+  z-index: 10;
+  list-style: none;
+  text-align: left;
+}
+.ct-legend li {
+  position: relative;
+  padding-left: 23px;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  display: inline-block;
+}
+.ct-legend li:before {
+  margin-top: 5px;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 0;
+  content: '';
+  border: 3px solid transparent;
+  border-radius: 2px;
+}
+.ct-legend li.inactive:before {
+  background: transparent;
+}
+.ct-legend.ct-legend-inside {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 23px;
+}
+.ct-legend.ct-legend-inside li{
+  display: block;
+  margin: 0;
+}
+.ct-legend .ct-series-0:before {
+  background-color: green;
+  border-color: green;
+}
+.ct-legend .ct-series-1:before {
+  background-color: red;
+  border-color: red;
+}
+
+.ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+stroke: green !important
+}
+.ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
+stroke: red !important
 }
 
 </style>

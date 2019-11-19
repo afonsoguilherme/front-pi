@@ -4,6 +4,7 @@ import { userService, config } from '.'
 
 export const movimentoService = {
   getAll,
+  getAllGrafico,
   getPorVendedor,
   getAllTipoVenda,
   getAllTipoAusencia,
@@ -19,6 +20,15 @@ function getAll () {
     headers: authHeader()
   }
   return fetch(`${config.apiUrl}/Movimento/ObterTodosMovimentos`, requestOptions).then(handleResponse)
+}
+
+function getAllGrafico () {
+  console.log('service')
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Movimento/ObterGrafico`, requestOptions).then(handleResponse)
 }
 
 function getPorVendedor (idVendedor) {

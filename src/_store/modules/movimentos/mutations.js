@@ -8,6 +8,16 @@ export default {
   getAllFailure (state, error) {
     state.all = { error }
   },
+  getAllGraficoRequest (state) {
+    state.all = { loading: true }
+  },
+  getAllGraficoSuccess (state, movimentos) {
+    console.log('mutations' + JSON.stringify(movimentos))
+    state.all = { items: movimentos }
+  },
+  getAllGraficoFailure (state, error) {
+    state.all = { error }
+  },
   getPorVendedorRequest (state) {
     state.allVendedor = { loading: true }
   },

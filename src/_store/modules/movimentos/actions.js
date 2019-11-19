@@ -10,6 +10,15 @@ export default {
         error => commit('getAllFailure', error)
       )
   },
+  getAllGrafico ({ commit }) {
+    console.log('actions')
+    commit('getAllGraficoRequest')
+    movimentoService.getAllGrafico()
+      .then(
+        movimentos => commit('getAllGraficoSuccess', movimentos),
+        error => commit('getAllGraficoFailure', error)
+      )
+  },
   getPorVendedor ({ dispatch, commit }, idVendedor) {
     commit('getPorVendedorRequest')
     movimentoService.getPorVendedor(idVendedor)

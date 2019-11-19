@@ -61,7 +61,12 @@
                   {{ mostrarHora(item.horarioMovimento.horaInicioMovimento) }}
                 </template>
                 <template v-slot:item.horaFinalMovimento="{ item }">
-                  {{ mostrarHora(item.horarioMovimento.horaFinalMovimento) }}
+                  <div v-if=" mostrarHora(item.horarioMovimento.horaFinalMovimento) === '00:00'">
+                    Não finalizada
+                  </div>
+                  <div v-else>
+                    {{ mostrarHora(item.horarioMovimento.horaFinalMovimento) }}
+                  </div>
                 </template>
                 <template v-slot:item.view="{ item }">
                   <v-btn
