@@ -15,7 +15,7 @@
         <chartist
           :data="grafico.data"
           :options="grafico.options"
-          
+          :responsive-options="grafico.responsiveOptions"
           :plugins="grafico.plugins"
           style="height: 400px"
           type="Bar"
@@ -56,7 +56,17 @@ export default {
             bottom: 0,
             left: 0
           }
-        }
+        },
+        responsiveOptions: [
+          ['screen and (max-width: 640px)', {
+            seriesBarDistance: 5,
+            axisX: {
+              labelInterpolationFnc: function (value) {
+                return value[0]
+              }
+            }
+          }]
+        ]
       }
     }
   },
