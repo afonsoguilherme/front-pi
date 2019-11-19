@@ -13,7 +13,6 @@ export default {
 
   register ({ dispatch, commit }, usuario) {
     commit('registerRequest', usuario)
-    // console.log('CADASTRANDO TIPO sistema NOVO' + JSON.stringify(tiposistema))
     usuarioService.register(usuario).then(
       usuario => {
         commit('registerSuccess', usuario)

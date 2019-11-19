@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers'
 import { userService, config } from '.'
 
-export const vendedorService = {
+export const corService = {
   getAll,
   register,
   update,
@@ -13,33 +13,33 @@ function getAll () {
     method: 'GET',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ObterTodosVendedores`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Cor/ObterTodasCores`, requestOptions).then(handleResponse)
 }
 
-function register (vendedor) {
+function register (cor) {
   const requestOptions = {
     method: 'POST',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(cor)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AdicionarNovoVendedor`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Cor/AdicionarNovaCor`, requestOptions).then(handleResponse)
 }
 
-function update (vendedor) {
+function update (cor) {
   const requestOptions = {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(cor)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AtualizarVendedor/${vendedor.idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Cor/AtualizarCor/${cor.idCor}`, requestOptions).then(handleResponse)
 }
 
-function _delete (idVendedor) {
+function _delete (idCor) {
   const requestOptions = {
     method: 'DELETE',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ExcluirVendedor/${idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Cor/ExcluirCor/${idCor}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse (response) {

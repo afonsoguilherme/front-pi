@@ -108,7 +108,6 @@ export default {
     }),
     handleSubmit () {
       if (this.$refs.formCadastro.validate()) {
-        console.log('Usuario a ser cadastrado: ' + JSON.stringify(this.usuario))
         this.register(this.usuario)
         this.$refs.formCadastro.reset()
       }

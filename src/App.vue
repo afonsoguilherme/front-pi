@@ -50,9 +50,6 @@ export default {
   margin: -1px auto 0px;
   width: calc(100% - 30px);
 }
-.v-btn--floating, .v-btn--icon:before{
-  border-radius: 50% !important;
-}
 .v-list-item {
   margin: 5px 15px 5px !important;
 }

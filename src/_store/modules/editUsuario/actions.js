@@ -8,7 +8,6 @@ export default {
 
   update ({ dispatch, commit }, usuario) {
     commit('updateRequest', usuario)
-    // console.log('CADASTRANDO USUARIO NOVO' + user)
     usuarioService.update(usuario).then(
       usuario => {
         commit('updateSuccess', usuario)

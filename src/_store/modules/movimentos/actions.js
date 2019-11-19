@@ -11,7 +11,6 @@ export default {
       )
   },
   getAllGrafico ({ commit }) {
-    console.log('actions')
     commit('getAllGraficoRequest')
     movimentoService.getAllGrafico()
       .then(

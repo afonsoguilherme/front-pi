@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers'
 import { userService, config } from '.'
 
-export const vendedorService = {
+export const tamanhoAlfabeticoService = {
   getAll,
   register,
   update,
@@ -13,33 +13,33 @@ function getAll () {
     method: 'GET',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ObterTodosVendedores`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/TamanhoAlfabetico/ObterTodosTamanhosAlfabeticos`, requestOptions).then(handleResponse)
 }
 
-function register (vendedor) {
+function register (tamanhoAlfabetico) {
   const requestOptions = {
     method: 'POST',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(tamanhoAlfabetico)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AdicionarNovoVendedor`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/TamanhoAlfabetico/AdicionarNovoTamanhoAlfabetico`, requestOptions).then(handleResponse)
 }
 
-function update (vendedor) {
+function update (tamanhoAlfabetico) {
   const requestOptions = {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(tamanhoAlfabetico)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AtualizarVendedor/${vendedor.idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/TamanhoAlfabetico/AtualizarTamanhoAlfabetico/${tamanhoAlfabetico.idTamanhoAlfabetico}`, requestOptions).then(handleResponse)
 }
 
-function _delete (idVendedor) {
+function _delete (idTamanhoAlfabetico) {
   const requestOptions = {
     method: 'DELETE',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ExcluirVendedor/${idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/TamanhoAlfabetico/ExcluirTamanhoAlfabetico/${idTamanhoAlfabetico}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse (response) {

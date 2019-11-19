@@ -1,28 +1,28 @@
-import { vendedorService } from '../../../_services'
+import { corService } from '../../../_services'
 import { router } from '../../../_helpers'
 
 export default {
   getAll ({ commit }) {
     commit('getAllRequest')
-    vendedorService.getAll()
+    corService.getAll()
       .then(
-        vendedores => commit('getAllSuccess', vendedores),
+        cores => commit('getAllSuccess', cores),
         error => commit('getAllFailure', error)
       )
   },
-  register ({ dispatch, commit }, vendedor) {
-    commit('registerRequest', vendedor)
-    vendedorService.register(vendedor)
+  register ({ dispatch, commit }, cor) {
+    commit('registerRequest', cor)
+    corService.register(cor)
       .then(
-        vendedor => {
-          commit('registerSuccess', vendedor)
-          router.push('/vendedores')
+        cor => {
+          commit('registerSuccess', cor)
+          router.push('/')
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            vendedorService.getAll()
+            corService.getAll()
               .then(
-                vendedores => commit('getAllSuccess', vendedores),
+                cores => commit('getAllSuccess', cores),
                 error => commit('getAllFailure', error)
               )
           })
@@ -33,18 +33,33 @@ export default {
         }
       )
   },
+  update ({ dispatch, commit }, cor) {
+    commit('updateRequest', cor)
+    corService.update(cor).then(
+      cor => {
+        commit('updateSuccess', cor)
+        router.push('/')
+        setTimeout(() => {
+          dispatch('alert/success', 'Registration successful', { root: true })
+        })
+      },
+      error => {
+        commit('updateFailure', error)
+        dispatch('alert/error', error, { root: true })
+      }
+    )
+  },
   delete ({ dispatch, commit }, id) {
     commit('deleteRequest', id)
-    vendedorService.delete(id)
+    corService.delete(id)
       .then(
-        vendedor => {
-          commit('deleteSuccess', vendedor)
+        cor => {
+          commit('deleteSuccess', cor)
           setTimeout(() => {
             dispatch('alert/success', 'Deleting successful', { root: true })
-            commit('getAllRequest')
-            vendedorService.getAll()
+            corService.getAll()
               .then(
-                vendedores => commit('getAllSuccess', vendedores),
+                cores => commit('getAllSuccess', cores),
                 error => commit('getAllFailure', error)
               )
           })

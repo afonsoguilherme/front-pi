@@ -12,7 +12,6 @@ export default {
     state.all = { loading: true }
   },
   getAllGraficoSuccess (state, movimentos) {
-    console.log('mutations' + JSON.stringify(movimentos))
     state.all = { items: movimentos }
   },
   getAllGraficoFailure (state, error) {

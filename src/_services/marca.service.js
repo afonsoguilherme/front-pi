@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers'
 import { userService, config } from '.'
 
-export const vendedorService = {
+export const marcaService = {
   getAll,
   register,
   update,
@@ -13,33 +13,33 @@ function getAll () {
     method: 'GET',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ObterTodosVendedores`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Marca/ObterTodasMarcas`, requestOptions).then(handleResponse)
 }
 
-function register (vendedor) {
+function register (marca) {
   const requestOptions = {
     method: 'POST',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(marca)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AdicionarNovoVendedor`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Marca/AdicionarNovaMarca`, requestOptions).then(handleResponse)
 }
 
-function update (vendedor) {
+function update (marca) {
   const requestOptions = {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(vendedor)
+    body: JSON.stringify(marca)
   }
-  return fetch(`${config.apiUrl}/Vendedor/AtualizarVendedor/${vendedor.idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Marca/AtualizarMarca/${marca.idMarca}`, requestOptions).then(handleResponse)
 }
 
-function _delete (idVendedor) {
+function _delete (idMarca) {
   const requestOptions = {
     method: 'DELETE',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Vendedor/ExcluirVendedor/${idVendedor}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Marca/ExcluirMarca/${idMarca}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse (response) {
