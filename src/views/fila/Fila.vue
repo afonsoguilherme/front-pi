@@ -545,11 +545,13 @@ export default {
     })
   },
   created () {
+    this.logout()
     this.getAllAtendimento()
     this.getAllEspera()
     this.getAllAusencia()
   },
   methods: {
+    ...mapActions('account', ['logout']),
     ...mapActions('filaEspera', {
       getAllEspera: 'getAll',
       iniciarAtendimento: 'iniciarAtendimento',

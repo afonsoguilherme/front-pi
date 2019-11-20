@@ -1,7 +1,7 @@
 import { authHeader } from '../_helpers'
 import { userService, config } from '.'
 
-export const tamanhoAlfabeticoService = {
+export const tamanhoService = {
   getAll,
   register,
   update,
@@ -13,33 +13,33 @@ function getAll () {
     method: 'GET',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/TamanhoAlfabetico/ObterTodosTamanhosAlfabeticos`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Tamanho/ObterTodosTamanhoss`, requestOptions).then(handleResponse)
 }
 
-function register (tamanhoAlfabetico) {
+function register (tamanho) {
   const requestOptions = {
     method: 'POST',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(tamanhoAlfabetico)
+    body: JSON.stringify(tamanho)
   }
-  return fetch(`${config.apiUrl}/TamanhoAlfabetico/AdicionarNovoTamanhoAlfabetico`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Tamanho/AdicionarNovoTamanho`, requestOptions).then(handleResponse)
 }
 
-function update (tamanhoAlfabetico) {
+function update (tamanho) {
   const requestOptions = {
     method: 'PUT',
     headers: { ...authHeader(), 'Content-Type': 'application/json' },
-    body: JSON.stringify(tamanhoAlfabetico)
+    body: JSON.stringify(tamanho)
   }
-  return fetch(`${config.apiUrl}/TamanhoAlfabetico/AtualizarTamanhoAlfabetico/${tamanhoAlfabetico.idTamanhoAlfabetico}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Tamanho/AtualizarTamanho/${tamanho.idTamanho}`, requestOptions).then(handleResponse)
 }
 
-function _delete (idTamanhoAlfabetico) {
+function _delete (idTamanho) {
   const requestOptions = {
     method: 'DELETE',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/TamanhoAlfabetico/ExcluirTamanhoAlfabetico/${idTamanhoAlfabetico}`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Tamanho/ExcluirTamanho/${idTamanho}`, requestOptions).then(handleResponse)
 }
 
 function handleResponse (response) {

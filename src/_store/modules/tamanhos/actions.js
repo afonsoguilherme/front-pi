@@ -1,28 +1,28 @@
-import { corService } from '../../../_services'
+import { tamanhoService } from '../../../_services'
 import { router } from '../../../_helpers'
 
 export default {
   getAll ({ commit }) {
     commit('getAllRequest')
-    corService.getAll()
+    tamanhoService.getAll()
       .then(
-        cores => commit('getAllSuccess', cores),
+        tamanhos => commit('getAllSuccess', tamanhos),
         error => commit('getAllFailure', error)
       )
   },
-  register ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.register(cor)
+  register ({ dispatch, commit }, tamanho) {
+    commit('registerRequest', tamanho)
+    tamanhoService.register(tamanho)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        tamanho => {
+          commit('registerSuccess', tamanho)
           router.push('/')
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            tamanhoService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                tamanhos => commit('getAllSuccess', tamanhos),
                 error => commit('getAllFailure', error)
               )
           })
@@ -33,18 +33,18 @@ export default {
         }
       )
   },
-  update ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.update(cor)
+  update ({ dispatch, commit }, tamanho) {
+    commit('registerRequest', tamanho)
+    tamanhoService.update(tamanho)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        tamanho => {
+          commit('registerSuccess', tamanho)
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            tamanhoService.getAll()
               .then(
-                cors => commit('getAllSuccess', cors),
+                tamanhos => commit('getAllSuccess', tamanhos),
                 error => commit('getAllFailure', error)
               )
           })
@@ -58,15 +58,15 @@ export default {
 
   delete ({ dispatch, commit }, id) {
     commit('deleteRequest', id)
-    corService.delete(id)
+    tamanhoService.delete(id)
       .then(
-        cor => {
-          commit('deleteSuccess', cor)
+        tamanho => {
+          commit('deleteSuccess', tamanho)
           setTimeout(() => {
             dispatch('alert/success', 'Deleting successful', { root: true })
-            corService.getAll()
+            tamanhoService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                tamanhos => commit('getAllSuccess', tamanhos),
                 error => commit('getAllFailure', error)
               )
           })

@@ -17,15 +17,6 @@ export default {
   registerFailure (state, error) {
     state.status = { error }
   },
-  updateRequest (state, cor) {
-    state.status = { registering: true }
-  },
-  updateSuccess (state, cor) {
-    state.status = { cor }
-  },
-  updateFailure (state, error) {
-    state.status = { error }
-  },
   deleteRequest (state, idCor) {
     state.all.items = state.all.items.map(cor =>
       cor.idCor === idCor

@@ -18,7 +18,7 @@
           >
             <material-card
               color="grey darken-2"
-              title="Cadastrar vendedor"
+              title="Editar vendedor"
             >
               <v-form
                 ref="formCadastro"
@@ -61,7 +61,7 @@
                   class="mr-4"
                   @click="handleSubmit()"
                 >
-                  Cadastrar
+                  Editar
                 </v-btn>
                 <v-btn
                   color="error"

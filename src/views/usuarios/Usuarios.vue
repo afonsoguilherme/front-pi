@@ -30,16 +30,23 @@
                 >mdi-plus-circle</v-icon>
                 Cadastrar
               </v-btn>
-              <v-spacer/>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Pesquisar"
+                single-line
+                hide-details
+              />
               <v-data-table
                 :headers="headers"
                 :items="usuarios"
-                :footer-props="{
-                  showFirstLastPage: true,
-                  itemsPerPageText: 'Qtd por Página'
-                }"
+                :search="search"
+                :page.sync="page"
+                :items-per-page="itemsPerPage"
+                hide-default-footer
                 sort-by="nome"
                 class="elevation-1"
+                @page-count="pageCount = $event"
               >
                 <template v-slot:item.edit="{ item }">
                   <v-btn
@@ -70,9 +77,15 @@
                     :value="true"
                     color="error"
                     icon="mdi-alert"
-                  >TEXTO!</v-alert>
+                  >Não existem usuários cadastrados!</v-alert>
                 </template>
               </v-data-table>
+              <v-pagination
+                v-model="page"
+                :length="pageCount"
+                color="grey darken-2"
+                circle
+              />
             </material-card>
             <v-dialog
               v-model="modalDelete"
@@ -115,10 +128,13 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
       nomeUsuario: '',
       idUsuario: '',
       modalDelete: false,
-      textoPaginacao: 'Qtd por Página',
       headers: [
         { text: 'Nome', align: 'left', value: 'nome' },
         { text: 'Login', align: 'left', value: 'login' },

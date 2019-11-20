@@ -20,15 +20,23 @@
               color="grey darken-2"
               title="Vendas"
             >
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Pesquisar"
+                single-line
+                hide-details
+              />
               <v-data-table
                 :headers="headers"
                 :items="movimentos"
-                :footer-props="{
-                  showFirstLastPage: true,
-                  itemsPerPageText: 'Quantidade por página'
-                }"
-                sort-by="ra"
+                :search="search"
+                :page.sync="page"
+                :items-per-page="itemsPerPage"
+                hide-default-footer
+                sort-by="nomeVendedor"
                 class="elevation-1"
+                @page-count="pageCount = $event"
               >
                 <template v-slot:item.nomeVendedor="{ item }">
                   <div v-if="item.vendedor !== null">
@@ -71,11 +79,10 @@
                 <template v-slot:item.view="{ item }">
                   <v-btn
                     color="grey darken-2"
-                    @click="getMovimentoEdit(item)"
-                  >
-                    <v-icon
-                      color="blue lighten-5"
-                    >mdi-magnify-plus</v-icon>
+                    tile
+                    large
+                    icon>
+                    <v-icon>mdi-magnify-plus</v-icon>
                   </v-btn>
                 </template>
                 <template v-slot:no-data>
@@ -83,9 +90,15 @@
                     :value="true"
                     color="error"
                     icon="mdi-alert"
-                  >Não existem vendedores cadastrados!</v-alert>
+                  >Não existem movimentos cadastrados!</v-alert>
                 </template>
               </v-data-table>
+              <v-pagination
+                v-model="page"
+                :length="pageCount"
+                color="grey darken-2"
+                circle
+              />
             </material-card>
           </v-flex>
         </v-layout>
@@ -101,7 +114,10 @@ import moment from 'moment'
 export default {
   data () {
     return {
-      textoPaginacao: 'Quantidade por página',
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
       headers: [
         { text: 'Vendedor', align: 'left', value: 'nomeVendedor' },
         { text: 'Status venda', align: 'center', value: 'statusVenda', sortable: false },
@@ -116,21 +132,7 @@ export default {
     ...mapState({
       movimentos: state => state.movimentos.all.items
       // mensagem: state => state.movimentos.status
-    }),
-    pages () {
-      try {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.pagination.totalItems = this.movimentos.length
-        if (this.pagination.totalItems !== undefined) {
-          if (this.pagination.rowsPerPage == null || this.pagination.totalItems == null) {
-            return 0
-          }
-          return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
-        }
-      } catch (e) {
-        // console.log("Erro aqui!")
-      }
-    }
+    })
   },
   created () {
     this.getAll()
