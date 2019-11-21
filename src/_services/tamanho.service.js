@@ -13,7 +13,7 @@ function getAll () {
     method: 'GET',
     headers: authHeader()
   }
-  return fetch(`${config.apiUrl}/Tamanho/ObterTodosTamanhoss`, requestOptions).then(handleResponse)
+  return fetch(`${config.apiUrl}/Tamanho/ObterTodosTamanhos`, requestOptions).then(handleResponse)
 }
 
 function register (tamanho) {

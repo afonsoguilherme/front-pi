@@ -113,7 +113,7 @@
             </material-card>
             <v-dialog
               v-model="modalDelete"
-              max-width="350"
+              max-width="500"
             >
               <v-card>
                 <v-card-title class="headline">Deseja realmente excluir o vendedor?</v-card-title>

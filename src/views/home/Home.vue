@@ -197,6 +197,32 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-snackbar
+                  v-model="snackbarTipoSuccess"
+                  :timeout="timeout"
+                  top
+                >
+                  Tipo cadastrado com sucesso!
+                  <v-btn
+                    color="success"
+                    text
+                    @click="snackbarTipoSuccess = false"
+                  >
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
+                <v-snackbar
+                  v-model="snackbarTipoError"
+                  :timeout="timeout"
+                  top>
+                  Já existe um tipo cadastrado com essa descrição!
+                  <v-btn
+                    color="error"
+                    text
+                    @click="snackbarTipoError = false">
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
               </v-flex>
               <v-flex
                 xl6
@@ -378,6 +404,32 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-snackbar
+                  v-model="snackbarMarcaSuccess"
+                  :timeout="timeout"
+                  top
+                >
+                  Marca cadastrada com sucesso!
+                  <v-btn
+                    color="success"
+                    text
+                    @click="snackbarMarcaSuccess = false"
+                  >
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
+                <v-snackbar
+                  v-model="snackbarMarcaError"
+                  :timeout="timeout"
+                  top>
+                  Já existe uma marca cadastrada com essa descrição!
+                  <v-btn
+                    color="error"
+                    text
+                    @click="snackbarMarcaError = false">
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -569,6 +621,32 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-snackbar
+                  v-model="snackbarCorSuccess"
+                  :timeout="timeout"
+                  top
+                >
+                  Cor cadastrada com sucesso!
+                  <v-btn
+                    color="success"
+                    text
+                    @click="snackbarCorSuccess = false"
+                  >
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
+                <v-snackbar
+                  v-model="snackbarCorError"
+                  :timeout="timeout"
+                  top>
+                  Já existe uma cor cadastrada com essa descrição!
+                  <v-btn
+                    color="error"
+                    text
+                    @click="snackbarCorError = false">
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
               </v-flex>
               <v-flex
                 xl6
@@ -750,6 +828,32 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                <v-snackbar
+                  v-model="snackbarTamanhoSuccess"
+                  :timeout="timeout"
+                  top
+                >
+                  Tamanho cadastrado com sucesso!
+                  <v-btn
+                    color="success"
+                    text
+                    @click="snackbarTamanhoSuccess = false"
+                  >
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
+                <v-snackbar
+                  v-model="snackbarTamanhoError"
+                  :timeout="timeout"
+                  top>
+                  Já existe um tamanho cadastrado com essa descrição!
+                  <v-btn
+                    color="error"
+                    text
+                    @click="snackbarCorError = false">
+                    FECHAR
+                  </v-btn>
+                </v-snackbar>
               </v-flex>
             </v-layout>
           </v-flex>
@@ -766,17 +870,26 @@ export default {
   data () {
     return {
       show: false,
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 4,
+      timeout: 4000,
       searchTipo: '',
       searchMarca: '',
       searchCor: '',
       searchTamanho: '',
-      page: 1,
-      pageCount: 0,
-      itemsPerPage: 4,
       validTipo: true,
       validMarca: true,
       validCor: true,
       validTamanho: true,
+      snackbarTipoSuccess: false,
+      snackbarTipoError: false,
+      snackbarMarcaSuccess: false,
+      snackbarMarcaError: false,
+      snackbarCorSuccess: false,
+      snackbarCorError: false,
+      snackbarTamanhoSuccess: false,
+      snackbarTamanhoError: false,
       idTipo: '',
       descricaoTipo: '',
       idMarca: '',
@@ -890,9 +1003,25 @@ export default {
     }),
     cadastrarTipo () {
       if (this.$refs.formTipo.validate()) {
-        this.registerTipo(this.tipo)
-        this.$refs.formTipo.reset()
+        const resultadoTipo = this.validaTipoExistente()
+        if (resultadoTipo === true) {
+          this.registerTipo(this.tipo)
+          this.$refs.formTipo.reset()
+          this.snackbarTipoSuccess = true
+        }
+        if (resultadoTipo === false) {
+          this.snackbarTipoError = true
+        }
       }
+    },
+    validaTipoExistente () {
+      let tiposExistentes = this.tipos
+      for (let i = 0; i < tiposExistentes.length; i++) {
+        if (this.tipo.descricaoTipo.trim().toUpperCase() === tiposExistentes[i].descricaoTipo) {
+          return false
+        }
+      }
+      return true
     },
     openModalEditTipo (descricao, id) {
       this.tipoEdit.descricaoTipo = descricao
@@ -915,9 +1044,25 @@ export default {
     },
     cadastrarMarca () {
       if (this.$refs.formMarca.validate()) {
-        this.registerMarca(this.marca)
-        this.$refs.formMarca.reset()
+        const resultadoMarca = this.validaMarcaExistente()
+        if (resultadoMarca === true) {
+          this.registerMarca(this.marca)
+          this.$refs.formMarca.reset()
+          this.snackbarMarcaSuccess = true
+        }
+        if (resultadoMarca === false) {
+          this.snackbarMarcaError = true
+        }
       }
+    },
+    validaMarcaExistente () {
+      let marcasExistentes = this.marcas
+      for (let i = 0; i < marcasExistentes.length; i++) {
+        if (this.marca.descricaoMarca.trim().toUpperCase() === marcasExistentes[i].descricaoMarca) {
+          return false
+        }
+      }
+      return true
     },
     openModalEditMarca (descricao, id) {
       this.marcaEdit.descricaoMarca = descricao
@@ -940,9 +1085,25 @@ export default {
     },
     cadastrarCor () {
       if (this.$refs.formCor.validate()) {
-        this.registerCor(this.cor)
-        this.$refs.formCor.reset()
+        const resultadoCor = this.validaCorExistente()
+        if (resultadoCor === true) {
+          this.registerCor(this.cor)
+          this.$refs.formCor.reset()
+          this.snackbarCorSuccess = true
+        }
+        if (resultadoCor === false) {
+          this.snackbarCorError = true
+        }
       }
+    },
+    validaCorExistente () {
+      let coresExistentes = this.cores
+      for (let i = 0; i < coresExistentes.length; i++) {
+        if (this.cor.descricaoCor.trim().toUpperCase() === coresExistentes[i].descricaoCor) {
+          return false
+        }
+      }
+      return true
     },
     openModalEditCor (descricao, id) {
       this.corEdit.descricaoCor = descricao
@@ -965,9 +1126,25 @@ export default {
     },
     cadastrarTamanho () {
       if (this.$refs.formTamanho.validate()) {
-        this.registerTamanho(this.tamanho)
-        this.$refs.formTamanho.reset()
+        const resultadoTamanho = this.validaTamanhoExistente()
+        if (resultadoTamanho === true) {
+          this.registerTamanho(this.tamanho)
+          this.$refs.formTamanho.reset()
+          this.snackbarTamanhoSuccess = true
+        }
+        if (resultadoTamanho === false) {
+          this.snackbarTamanhoError = true
+        }
       }
+    },
+    validaTamanhoExistente () {
+      let tamanhosExistentes = this.tamanhos
+      for (let i = 0; i < tamanhosExistentes.length; i++) {
+        if (this.tamanho.descricaoTamanho.trim().toUpperCase() === tamanhosExistentes[i].descricaoTamanho) {
+          return false
+        }
+      }
+      return true
     },
     openModalEditTamanho (descricao, id) {
       this.tamanhoEdit.descricaoTamanho = descricao

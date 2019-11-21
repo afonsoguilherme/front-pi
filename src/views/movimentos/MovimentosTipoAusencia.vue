@@ -33,15 +33,16 @@
                 :search="search"
                 :page.sync="page"
                 :items-per-page="itemsPerPage"
+                sort-desc
                 hide-default-footer
-                sort-by="nomeVendedor"
+                sort-by="horarioMovimento.horaFinalMovimento"
                 class="elevation-1"
                 @page-count="pageCount = $event"
               >
-                <template v-slot:item.saida="{ item }">
+                <template v-slot:item.horarioMovimento.saida="{ item }">
                   {{ mostrarHora(item.horarioMovimento.horaInicioMovimento) + ' ' + moment(item.horarioMovimento.dataInicioMovimento).parseZone().format('DD/MM/YYYY') }}
                 </template>
-                <template v-slot:item.chegada="{ item }">
+                <template v-slot:item.horarioMovimento.chegada="{ item }">
                   {{ mostrarHora(item.horarioMovimento.horaFinalMovimento) + ' ' + moment(item.horarioMovimento.dataFinalMovimento).parseZone().format('DD/MM/YYYY') }}
                 </template>
                 <template v-slot:item.view="{ item }">
@@ -88,8 +89,8 @@ export default {
       itemsPerPage: 10,
       headers: [
         { text: 'Vendedor', align: 'left', value: 'vendedor.nomeVendedor' },
-        { text: 'Saiu', align: 'left', value: 'saida', sortable: false },
-        { text: 'Chegou', align: 'left', value: 'chegada', sortable: false },
+        { text: 'Saiu', align: 'left', value: 'horarioMovimento.saida' },
+        { text: 'Chegou', align: 'left', value: 'horarioMovimento.chegada' },
         { text: 'Detalhar', align: 'center', value: 'view', sortable: false }
       ]
     }

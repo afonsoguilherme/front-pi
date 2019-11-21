@@ -33,12 +33,13 @@
                 :search="search"
                 :page.sync="page"
                 :items-per-page="itemsPerPage"
+                sort-desc
                 hide-default-footer
-                sort-by="nomeVendedor"
+                sort-by="horarioMovimento.horaFinalMovimento"
                 class="elevation-1"
                 @page-count="pageCount = $event"
               >
-                <template v-slot:item.nomeVendedor="{ item }">
+                <template v-slot:item.vendedor.nomeVendedor="{ item }">
                   <div v-if="item.vendedor !== null">
                     {{ item.vendedor.nomeVendedor }}
                   </div>
@@ -62,13 +63,13 @@
                     </div>
                   </div>
                 </template>
-                <template v-slot:item.dataInicioMovimento="{ item }">
+                <template v-slot:item.horarioMovimento.dataInicioMovimento="{ item }">
                   {{ moment(item.horarioMovimento.dataInicioMovimento).parseZone().format('DD/MM/YYYY') }}
                 </template>
-                <template v-slot:item.horaInicioMovimento="{ item }">
+                <template v-slot:item.horarioMovimento.horaInicioMovimento="{ item }">
                   {{ mostrarHora(item.horarioMovimento.horaInicioMovimento) }}
                 </template>
-                <template v-slot:item.horaFinalMovimento="{ item }">
+                <template v-slot:item.horarioMovimento.horaFinalMovimento="{ item }">
                   <div v-if=" mostrarHora(item.horarioMovimento.horaFinalMovimento) === '00:00'">
                     Não finalizada
                   </div>
@@ -119,11 +120,11 @@ export default {
       pageCount: 0,
       itemsPerPage: 10,
       headers: [
-        { text: 'Vendedor', align: 'left', value: 'nomeVendedor' },
+        { text: 'Vendedor', align: 'left', value: 'vendedor.nomeVendedor' },
         { text: 'Status venda', align: 'center', value: 'statusVenda', sortable: false },
-        { text: 'Data', align: 'left', value: 'dataInicioMovimento', sortable: false },
-        { text: 'Inicio', align: 'left', value: 'horaInicioMovimento', sortable: false },
-        { text: 'Fim', align: 'left', value: 'horaFinalMovimento', sortable: false },
+        { text: 'Data', align: 'left', value: 'horarioMovimento.dataInicioMovimento' },
+        { text: 'Inicio', align: 'left', value: 'horarioMovimento.horaInicioMovimento' },
+        { text: 'Fim', align: 'left', value: 'horarioMovimento.horaFinalMovimento' },
         { text: 'Detalhar', align: 'center', value: 'view', sortable: false }
       ]
     }
