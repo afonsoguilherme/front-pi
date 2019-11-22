@@ -20,7 +20,6 @@
               color="grey darken-2"
               title="Vendedores"
             >
-              <v-spacer/>
               <v-btn
                 color="grey darken-2"
                 to="/cadastrarVendedor"
@@ -31,16 +30,23 @@
                 >mdi-plus-circle</v-icon>
                 Cadastrar
               </v-btn>
-              <v-spacer/>
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Pesquisar"
+                single-line
+                hide-details
+              />
               <v-data-table
                 :headers="headers"
                 :items="vendedores"
-                :footer-props="{
-                  showFirstLastPage: true,
-                  itemsPerPageText: 'Quantidade por página'
-                }"
-                sort-by="ra"
+                :search="search"
+                :page.sync="page"
+                :items-per-page="itemsPerPage"
+                hide-default-footer
+                sort-by="nomeVendedor"
                 class="elevation-1"
+                @page-count="pageCount = $event"
               >
                 <template v-slot:item.imagemVendedor="{ item }">
                   <div v-if="item.imagemVendedor === ''">
@@ -98,10 +104,16 @@
                   >Não existem vendedores cadastrados!</v-alert>
                 </template>
               </v-data-table>
+              <v-pagination
+                v-model="page"
+                :length="pageCount"
+                color="grey darken-2"
+                circle
+              />
             </material-card>
             <v-dialog
               v-model="modalDelete"
-              max-width="350"
+              max-width="500"
             >
               <v-card>
                 <v-card-title class="headline">Deseja realmente excluir o vendedor?</v-card-title>
@@ -140,12 +152,15 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
       nomeVendedor: '',
       codigoVendedor: '',
       imagemVendedor: '',
       iconImage: './img/icon.png',
       modalDelete: false,
-      textoPaginacao: 'Quantidade por página',
       headers: [
         { text: 'Nome', align: 'left', value: 'nomeVendedor' },
         { text: 'Código', align: 'left', value: 'codigoVendedor' },
@@ -159,21 +174,7 @@ export default {
     ...mapState({
       vendedores: state => state.vendedores.all.items,
       mensagem: state => state.vendedores.status
-    }),
-    pages () {
-      try {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.pagination.totalItems = this.vendedores.length
-        if (this.pagination.totalItems !== undefined) {
-          if (this.pagination.rowsPerPage == null || this.pagination.totalItems == null) {
-            return 0
-          }
-          return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
-        }
-      } catch (e) {
-        // console.log("Erro aqui!")
-      }
-    }
+    })
   },
   created () {
     this.getAll()

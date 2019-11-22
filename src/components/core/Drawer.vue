@@ -23,7 +23,6 @@
         </div>
       </template>
       <v-list
-        shaped
         nav
         dark
       >

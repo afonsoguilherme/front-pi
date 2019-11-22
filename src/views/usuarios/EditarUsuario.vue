@@ -17,8 +17,8 @@
             xs12
           >
             <material-card
-              color="primary"
-              title="Informe os dados abaixo"
+              color="grey darken-2"
+              title="Editar usuário"
             >
               <v-form
                 ref="formCadastro"

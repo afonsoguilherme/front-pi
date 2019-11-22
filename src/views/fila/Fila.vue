@@ -351,8 +351,10 @@
                   >
                     <v-select
                       v-model="vendaNaoSucedida.tipoProduto"
-                      :items="tipoProduto"
+                      :items="tipos"
                       :rules="tipoProdutoRules"
+                      item-text="descricaoTipo"
+                      item-value="descricaoTipo"
                       outlined
                       label="Tipo de produto"
                     />
@@ -366,8 +368,10 @@
                   >
                     <v-select
                       v-model="vendaNaoSucedida.marcaProduto"
-                      :items="marcaProduto"
+                      :items="marcas"
                       :rules="marcaProdutoRules"
+                      item-text="descricaoMarca"
+                      item-value="descricaoMarca"
                       outlined
                       label="Marca"
                     />
@@ -381,8 +385,10 @@
                   >
                     <v-select
                       v-model="vendaNaoSucedida.corProduto"
-                      :items="corProduto"
+                      :items="cores"
                       :rules="corProdutoRules"
+                      item-text="descricaoCor"
+                      item-value="descricaoCor"
                       style="padding-right:4px;"
                       outlined
                       label="Cor"
@@ -395,26 +401,16 @@
                     sm6
                     xs6
                   >
-                    <div v-if="vendaNaoSucedida.tipoProduto === 'Baixo' || vendaNaoSucedida.tipoProduto === 'Calçado'">
-                      <v-select
-                        v-model="vendaNaoSucedida.numeroProduto"
-                        :items="tamanhoNumProduto"
-                        :rules="numeroProdutoRules"
-                        style="padding-left:4px;"
-                        outlined
-                        label="Numero"
-                      />
-                    </div>
-                    <div v-else>
-                      <v-select
-                        v-model="vendaNaoSucedida.numeroProduto"
-                        :items="tamanhoAlfProduto"
-                        :rules="numeroProdutoRules"
-                        style="padding-left:4px;"
-                        outlined
-                        label="Numero"
-                      />
-                    </div>
+                    <v-select
+                      v-model="vendaNaoSucedida.tamanhoProduto"
+                      :items="tamanhos"
+                      :rules="tamanhoProdutoRules"
+                      item-text="descricaoTamanho"
+                      item-value="descricaoTamanho"
+                      style="padding-right:4px;"
+                      outlined
+                      label="Tamanho"
+                    />
                   </v-flex>
                   <v-flex
                     xl12
@@ -455,6 +451,7 @@
                       outlined
                     />
                     <v-btn
+                      :disabled="!valid"
                       color="success"
                       @click="registrarVendaNaoRealizada()"
                     >
@@ -501,7 +498,7 @@ export default {
         tipoProduto: '',
         marcaProduto: '',
         corProduto: '',
-        numeroProduto: '',
+        tamanhoProduto: '',
         descricaoProduto: '',
         nomeCliente: '',
         telefoneCliente: ''
@@ -520,7 +517,7 @@ export default {
       tipoProdutoRules: [ v => !!v || 'O campo tipo é obrigatório' ],
       marcaProdutoRules: [ v => !!v || 'O campo marca é obrigatório' ],
       corProdutoRules: [ v => !!v || 'O campo cor é obrigatório' ],
-      numeroProdutoRules: [ v => !!v || 'O campo número é obrigatório' ],
+      tamanhoProdutoRules: [ v => !!v || 'O campo tamanho é obrigatório' ],
       inheritAttrs: false,
       offsetTop: 0
     }
@@ -542,14 +539,32 @@ export default {
       movimentos: state => state.movimentos.all.items,
       movimentosVendedor: state => state.movimentos.allVendedor.items
       // mensagem: state => state.movimentos.status
+    }),
+    ...mapState({
+      tipos: state => state.tipos.all.items
+    }),
+    ...mapState({
+      marcas: state => state.marcas.all.items
+    }),
+    ...mapState({
+      cores: state => state.cores.all.items
+    }),
+    ...mapState({
+      tamanhos: state => state.tamanhos.all.items
     })
   },
   created () {
+    this.logout()
     this.getAllAtendimento()
     this.getAllEspera()
     this.getAllAusencia()
+    this.getAllTipos()
+    this.getAllMarcas()
+    this.getAllCores()
+    this.getAllTamanhos()
   },
   methods: {
+    ...mapActions('account', ['logout']),
     ...mapActions('filaEspera', {
       getAllEspera: 'getAll',
       iniciarAtendimento: 'iniciarAtendimento',
@@ -569,6 +584,18 @@ export default {
     }),
     ...mapActions('vendasNaoSucedidas', {
       registerVendaNaoSucedida: 'register'
+    }),
+    ...mapActions('tipos', {
+      getAllTipos: 'getAll'
+    }),
+    ...mapActions('cores', {
+      getAllCores: 'getAll'
+    }),
+    ...mapActions('marcas', {
+      getAllMarcas: 'getAll'
+    }),
+    ...mapActions('tamanhos', {
+      getAllTamanhos: 'getAll'
     }),
     openModalAcoes (nome, id, i) {
       this.nomeVendedor = nome
@@ -607,6 +634,7 @@ export default {
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Venda'
         this.registerMovimento(this.movimento)
+        this.atualizaPage()
       }
     },
     fimAtentimendoVendaRealizada (idVendedor) {
@@ -633,11 +661,11 @@ export default {
         this.movimento.statusVenda = true
 
         this.end(this.movimento)
+        this.atualizaPage()
       }
     },
     fimAtendimentoVendaNaoRealizada (idVendedor) {
       if (idVendedor !== null) {
-        this.finalizarAtendimento(idVendedor)
         this.modalAtendimento = false
         this.movimento.idVendedor = idVendedor
 
@@ -658,7 +686,6 @@ export default {
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
 
-        this.end(this.movimento)
         this.vendaNaoSucedida.idVendedor = idVendedor
         this.modalVendaNaoRealizada = true
       }
@@ -666,9 +693,12 @@ export default {
     registrarVendaNaoRealizada () {
       if (this.$refs.formVendaNaoSucedida.validate()) {
         if (this.vendedorVendaNaoRealizada !== null || this.vendedorVendaNaoRealizada !== '') {
+          this.finalizarAtendimento(this.movimento.idVendedor)
+          this.end(this.movimento)
           this.registerVendaNaoSucedida(this.vendaNaoSucedida)
           this.modalVendaNaoRealizada = false
           this.$refs.formVendaNaoSucedida.reset()
+          this.atualizaPage()
         }
       }
     },
@@ -696,6 +726,7 @@ export default {
         this.movimento.tipoMovimento = 'Ausencia'
 
         this.registerMovimento(this.movimento)
+        this.atualizaPage()
       }
     },
     fimAusencia (idVendedor) {
@@ -721,7 +752,11 @@ export default {
         this.movimento.statusVenda = false
 
         this.end(this.movimento)
+        this.atualizaPage()
       }
+    },
+    atualizaPage () {
+      this.$router.go()
     }
   }
 }

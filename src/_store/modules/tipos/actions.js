@@ -1,28 +1,28 @@
-import { corService } from '../../../_services'
+import { tipoService } from '../../../_services'
 import { router } from '../../../_helpers'
 
 export default {
   getAll ({ commit }) {
     commit('getAllRequest')
-    corService.getAll()
+    tipoService.getAll()
       .then(
-        cores => commit('getAllSuccess', cores),
+        tipos => commit('getAllSuccess', tipos),
         error => commit('getAllFailure', error)
       )
   },
-  register ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.register(cor)
+  register ({ dispatch, commit }, tipo) {
+    commit('registerRequest', tipo)
+    tipoService.register(tipo)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        tipo => {
+          commit('registerSuccess', tipo)
           router.push('/')
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            tipoService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                tipos => commit('getAllSuccess', tipos),
                 error => commit('getAllFailure', error)
               )
           })
@@ -33,18 +33,18 @@ export default {
         }
       )
   },
-  update ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.update(cor)
+  update ({ dispatch, commit }, tipo) {
+    commit('registerRequest', tipo)
+    tipoService.update(tipo)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        tipo => {
+          commit('registerSuccess', tipo)
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            tipoService.getAll()
               .then(
-                cors => commit('getAllSuccess', cors),
+                tipos => commit('getAllSuccess', tipos),
                 error => commit('getAllFailure', error)
               )
           })
@@ -58,15 +58,15 @@ export default {
 
   delete ({ dispatch, commit }, id) {
     commit('deleteRequest', id)
-    corService.delete(id)
+    tipoService.delete(id)
       .then(
-        cor => {
-          commit('deleteSuccess', cor)
+        tipo => {
+          commit('deleteSuccess', tipo)
           setTimeout(() => {
             dispatch('alert/success', 'Deleting successful', { root: true })
-            corService.getAll()
+            tipoService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                tipos => commit('getAllSuccess', tipos),
                 error => commit('getAllFailure', error)
               )
           })

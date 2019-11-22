@@ -18,7 +18,7 @@
           >
             <material-card
               color="grey darken-2"
-              title="Informe os dados abaixo"
+              title="Cadastrar usuário"
             >
               <v-form
                 ref="formCadastro"
@@ -54,7 +54,7 @@
                   class="mr-4"
                   @click="handleSubmit"
                 >
-                  Concluir
+                  Cadastrar
                 </v-btn>
                 <v-btn
                   color="error"

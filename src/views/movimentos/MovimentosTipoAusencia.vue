@@ -20,30 +20,38 @@
               color="grey darken-2"
               title="Saídas"
             >
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Pesquisar"
+                single-line
+                hide-details
+              />
               <v-data-table
                 :headers="headers"
                 :items="movimentos"
-                :footer-props="{
-                  showFirstLastPage: true,
-                  itemsPerPageText: 'Quantidade por página'
-                }"
-                sort-by="ra"
+                :search="search"
+                :page.sync="page"
+                :items-per-page="itemsPerPage"
+                sort-desc
+                hide-default-footer
+                sort-by="horarioMovimento.horaFinalMovimento"
                 class="elevation-1"
+                @page-count="pageCount = $event"
               >
-                <template v-slot:item.saida="{ item }">
+                <template v-slot:item.horarioMovimento.saida="{ item }">
                   {{ mostrarHora(item.horarioMovimento.horaInicioMovimento) + ' ' + moment(item.horarioMovimento.dataInicioMovimento).parseZone().format('DD/MM/YYYY') }}
                 </template>
-                <template v-slot:item.chegada="{ item }">
+                <template v-slot:item.horarioMovimento.chegada="{ item }">
                   {{ mostrarHora(item.horarioMovimento.horaFinalMovimento) + ' ' + moment(item.horarioMovimento.dataFinalMovimento).parseZone().format('DD/MM/YYYY') }}
                 </template>
                 <template v-slot:item.view="{ item }">
                   <v-btn
                     color="grey darken-2"
-                    @click="getMovimentoEdit(item)"
-                  >
-                    <v-icon
-                      color="blue lighten-5"
-                    >mdi-magnify-plus</v-icon>
+                    tile
+                    large
+                    icon>
+                    <v-icon>mdi-magnify-plus</v-icon>
                   </v-btn>
                 </template>
                 <template v-slot:no-data>
@@ -51,9 +59,15 @@
                     :value="true"
                     color="error"
                     icon="mdi-alert"
-                  >Não existem vendedores cadastrados!</v-alert>
+                  >Não existem movimentos cadastrados!</v-alert>
                 </template>
               </v-data-table>
+              <v-pagination
+                v-model="page"
+                :length="pageCount"
+                color="grey darken-2"
+                circle
+              />
             </material-card>
           </v-flex>
         </v-layout>
@@ -69,11 +83,14 @@ import moment from 'moment'
 export default {
   data () {
     return {
-      textoPaginacao: 'Quantidade por página',
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 10,
       headers: [
         { text: 'Vendedor', align: 'left', value: 'vendedor.nomeVendedor' },
-        { text: 'Saiu', align: 'left', value: 'saida', sortable: false },
-        { text: 'Chegou', align: 'left', value: 'chegada', sortable: false },
+        { text: 'Saiu', align: 'left', value: 'horarioMovimento.saida' },
+        { text: 'Chegou', align: 'left', value: 'horarioMovimento.chegada' },
         { text: 'Detalhar', align: 'center', value: 'view', sortable: false }
       ]
     }
@@ -82,21 +99,7 @@ export default {
     ...mapState({
       movimentos: state => state.movimentos.all.items
       // mensagem: state => state.movimentos.status
-    }),
-    pages () {
-      try {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.pagination.totalItems = this.movimentos.length
-        if (this.pagination.totalItems !== undefined) {
-          if (this.pagination.rowsPerPage == null || this.pagination.totalItems == null) {
-            return 0
-          }
-          return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
-        }
-      } catch (e) {
-        // console.log("Erro aqui!")
-      }
-    }
+    })
   },
   created () {
     this.getAll()

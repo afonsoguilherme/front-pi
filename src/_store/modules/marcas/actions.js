@@ -1,28 +1,28 @@
-import { corService } from '../../../_services'
+import { marcaService } from '../../../_services'
 import { router } from '../../../_helpers'
 
 export default {
   getAll ({ commit }) {
     commit('getAllRequest')
-    corService.getAll()
+    marcaService.getAll()
       .then(
-        cores => commit('getAllSuccess', cores),
+        marcas => commit('getAllSuccess', marcas),
         error => commit('getAllFailure', error)
       )
   },
-  register ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.register(cor)
+  register ({ dispatch, commit }, marca) {
+    commit('registerRequest', marca)
+    marcaService.register(marca)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        marca => {
+          commit('registerSuccess', marca)
           router.push('/')
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            marcaService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                marcas => commit('getAllSuccess', marcas),
                 error => commit('getAllFailure', error)
               )
           })
@@ -33,18 +33,18 @@ export default {
         }
       )
   },
-  update ({ dispatch, commit }, cor) {
-    commit('registerRequest', cor)
-    corService.update(cor)
+  update ({ dispatch, commit }, marca) {
+    commit('registerRequest', marca)
+    marcaService.update(marca)
       .then(
-        cor => {
-          commit('registerSuccess', cor)
+        marca => {
+          commit('registerSuccess', marca)
           setTimeout(() => {
             dispatch('alert/success', 'Registration successful', { root: true })
             commit('getAllRequest')
-            corService.getAll()
+            marcaService.getAll()
               .then(
-                cors => commit('getAllSuccess', cors),
+                marcas => commit('getAllSuccess', marcas),
                 error => commit('getAllFailure', error)
               )
           })
@@ -58,15 +58,15 @@ export default {
 
   delete ({ dispatch, commit }, id) {
     commit('deleteRequest', id)
-    corService.delete(id)
+    marcaService.delete(id)
       .then(
-        cor => {
-          commit('deleteSuccess', cor)
+        marca => {
+          commit('deleteSuccess', marca)
           setTimeout(() => {
             dispatch('alert/success', 'Deleting successful', { root: true })
-            corService.getAll()
+            marcaService.getAll()
               .then(
-                cores => commit('getAllSuccess', cores),
+                marcas => commit('getAllSuccess', marcas),
                 error => commit('getAllFailure', error)
               )
           })
