@@ -17,6 +17,15 @@ export default {
   getAllGraficoFailure (state, error) {
     state.all = { error }
   },
+  getGraficoPorIdRequest (state) {
+    state.all = { loading: true }
+  },
+  getGraficoPorIdSuccess (state, movimentos) {
+    state.all = { items: movimentos }
+  },
+  getGraficoPorIdFailure (state, error) {
+    state.all = { error }
+  },
   getPorVendedorRequest (state) {
     state.allVendedor = { loading: true }
   },

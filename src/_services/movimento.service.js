@@ -105,3 +105,11 @@ function handleResponse (response) {
     return data
   })
 }
+
+function getGraficoPorId (idVendedor) {
+  const requestOptions = {
+    method: 'GET',
+    headers: { ...authHeader(), 'Content-Type': 'application/json' }
+  }
+  return fetch(`${config.apiUrl}/Movimento/ObterGraficoInd/${idVendedor}`, requestOptions).then(handleResponse)
+}

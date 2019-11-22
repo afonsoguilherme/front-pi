@@ -10,7 +10,8 @@ import MovimentosTipoVenda from '../views/movimentos/MovimentosTipoVenda'
 import MovimentosTipoAusencia from '../views/movimentos/MovimentosTipoAusencia'
 import DetalharMovimentoTipoVenda from '../views/movimentos/DetalharMovimentoTipoVenda'
 import DetalharMovimentoTipoAusencia from '../views/movimentos/DetalharMovimentoTipoAusencia'
-import Graficos from '../views/graficos/Graficos'
+import GraficoGeral from '../views/graficos/GraficoGeral'
+import GraficoEspecifico from '../views/graficos/GraficoEspecifico'
 import Fila from '../views/fila/Fila'
 import Usuarios from '../views/usuarios/Usuarios'
 import CadastrarUsuario from '../views/usuarios/CadastrarUsuario'
@@ -35,7 +36,8 @@ export const router = new Router({
     { path: '/usuarios', name: 'Usuários', component: Usuarios },
     { path: '/cadastrarUsuario', name: 'Cadastrar Usuário', component: CadastrarUsuario },
     { path: '/editarUsuario', name: 'Editar Usuário', component: EditarUsuario },
-    { path: '/graficos', name: 'Gráficos', component: Graficos },
+    { path: '/graficoGeral', name: 'Gráfico Geral', component: GraficoGeral },
+    { path: '/graficoEspecifico', name: 'Gráfico Especifico', component: GraficoEspecifico },
     { path: '*', redirect: '/404' }
   ]
 })

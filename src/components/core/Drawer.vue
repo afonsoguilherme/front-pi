@@ -93,9 +93,14 @@ export default {
         text: 'Saídas'
       },
       {
-        to: '/graficos',
+        to: '/graficoGeral',
         icon: 'mdi-chart-bar',
-        text: 'Gráficos'
+        text: 'Gráfico Geral'
+      },
+      {
+        to: '/graficoEspecifico',
+        icon: 'mdi-chart-bar',
+        text: 'Gráfico Especifíco'
       },
       {
         to: '/fila',

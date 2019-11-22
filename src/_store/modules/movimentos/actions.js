@@ -18,6 +18,14 @@ export default {
         error => commit('getAllGraficoFailure', error)
       )
   },
+  getGraficoPorID ({ commit }) {
+    commit('getGraficoPorIdRequest')
+    movimentoService.getGraficoPorId()
+      .then(
+        movimentos => commit('getGraficoPorIdSuccess', movimentos),
+        error => commit('getGraficoPorIdFailure', error)
+      )
+  }, 
   getPorVendedor ({ dispatch, commit }, idVendedor) {
     commit('getPorVendedorRequest')
     movimentoService.getPorVendedor(idVendedor)
