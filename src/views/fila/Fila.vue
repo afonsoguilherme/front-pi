@@ -630,7 +630,7 @@ export default {
         let hora = new Intl.DateTimeFormat([], options)
         let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.horaInicioMovimento = data
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Venda'
         this.registerMovimento(this.movimento)
@@ -656,7 +656,7 @@ export default {
         let hora = new Intl.DateTimeFormat([], options)
         let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.horaFinalMovimento = data
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = true
 
@@ -682,7 +682,7 @@ export default {
         let hora = new Intl.DateTimeFormat([], options)
         let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.horaFinalMovimento = data
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
 
@@ -721,7 +721,7 @@ export default {
         let hora = new Intl.DateTimeFormat([], options)
         let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaInicioMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.horaInicioMovimento = data
         this.movimento.horarioMovimento.dataInicioMovimento = data
         this.movimento.tipoMovimento = 'Ausencia'
 
@@ -747,7 +747,7 @@ export default {
         let hora = new Intl.DateTimeFormat([], options)
         let data = now.getFullYear() + '-' + zeroFill((now.getMonth() + 1)) + '-' + zeroFill(now.getUTCDate()) + 'T' + hora.format(new Date()) + ':00.00Z'
 
-        this.movimento.horarioMovimento.horaFinalMovimento = hora.format(new Date())
+        this.movimento.horarioMovimento.horaFinalMovimento = data
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
 

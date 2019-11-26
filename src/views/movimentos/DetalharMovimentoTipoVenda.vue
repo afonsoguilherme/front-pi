@@ -19,7 +19,23 @@
             <material-card
               color="grey darken-2"
               title="Vendas"
-            />
+            >
+              <v-simple-table>
+                <template v-slot:default>
+                  <tbody>
+                    <tr>
+                      <td>VENDEDOR: {{ movimento.vendedor.nomeVendedor }}, CÓDIGO: {{ movimento.vendedor.codigoVendedor }}</td>
+                    </tr>
+                    <tr>
+                      <td>DATA ATENDIMENTO: {{ moment(movimento.horarioMovimento.dataInicioMovimento).parseZone().format('DD/MM/YYYY') }}</td>
+                    </tr>
+                    <tr>
+                      <td>INÍCIO ATENDIMENTO: {{ mostrarHora(movimento.horarioMovimento.horaInicioMovimento) }}, FIM ATENDIMENTO: {{ mostrarHora(movimento.horarioMovimento.horaFinalMovimento) }} </td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+            </material-card>
           </v-flex>
         </v-layout>
       </v-container>
@@ -28,6 +44,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import moment from 'moment'
 
 export default {
   data () {
@@ -36,10 +54,19 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      movimento: state => state.editMovimento.movimentoEdit
+    })
   },
   created () {
+    moment.locale('pt')
   },
   methods: {
+    moment,
+    mostrarHora (hora) {
+      let novaHora = hora.slice(11, hora.length - 4)
+      return novaHora
+    }
   }
 }
 </script>

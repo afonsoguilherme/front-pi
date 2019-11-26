@@ -5,6 +5,11 @@ export default {
     state.movimentoEdit = movimento
     router.push('/editarMovimento')
   },
+  getMovimentoView (state, movimento) {
+    console.log('aqui')
+    state.movimentoEdit = movimento
+    router.push('/detalharMovimentoTipoVenda')
+  },
   updateRequest (state, movimento) {
     state.status = { registering: true }
   },

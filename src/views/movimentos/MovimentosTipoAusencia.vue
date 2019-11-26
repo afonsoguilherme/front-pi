@@ -50,7 +50,8 @@
                     color="grey darken-2"
                     tile
                     large
-                    icon>
+                    icon
+                    @click="getMovimentoView(item)">
                     <v-icon>mdi-magnify-plus</v-icon>
                   </v-btn>
                 </template>
@@ -111,7 +112,7 @@ export default {
       getAll: 'getAllTipoAusencia'
     }),
     ...mapActions('editMovimento', {
-      getMovimentoEdit: 'getVendedorEdit'
+      getMovimentoView: 'getMovimentoView'
     }),
     mostrarHora (hora) {
       let novaHora = hora.slice(11, hora.length - 4)

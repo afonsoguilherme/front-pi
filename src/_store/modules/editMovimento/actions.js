@@ -5,7 +5,9 @@ export default {
   getMovimentoEdit ({ commit }, movimento) {
     commit('getMovimento', movimento)
   },
-
+  getMovimentoView ({ commit }, movimento) {
+    commit('getMovimentoView', movimento)
+  },
   update ({ dispatch, commit }, movimento) {
     commit('updateRequest', movimento)
     movimentoService.update(movimento).then(

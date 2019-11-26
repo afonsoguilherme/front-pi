@@ -26,7 +26,7 @@ export default {
         movimentos => commit('getGraficoPorIdSuccess', movimentos),
         error => commit('getGraficoPorIdFailure', error)
       )
-  }, 
+  },
   getPorVendedor ({ dispatch, commit }, idVendedor) {
     commit('getPorVendedorRequest')
     movimentoService.getPorVendedor(idVendedor)
