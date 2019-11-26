@@ -8,6 +8,7 @@ export const movimentoService = {
   getPorVendedor,
   getAllTipoVenda,
   getAllTipoAusencia,
+  getGraficoPorId,
   register,
   end,
   update,
@@ -107,6 +108,7 @@ function handleResponse (response) {
 }
 
 function getGraficoPorId (idVendedor) {
+  console.log('service', idVendedor)
   const requestOptions = {
     method: 'GET',
     headers: { ...authHeader(), 'Content-Type': 'application/json' }

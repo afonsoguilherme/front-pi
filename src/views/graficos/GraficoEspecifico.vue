@@ -5,21 +5,44 @@
     grid-list-xl
     class="wrapper-content"
   >
-    <v-row align="center" class="container-select-menu" style="border: 2px solid red;">
-       <v-flex
+    <v-row align="center" class="container-select-menu">
+      <v-flex
           xl12
           lg12
           md12
           sm12
           xs12
         >
-          <v-select
-            v-model="vendaNaoSucedida.marcaProduto"
-            :items="marcaProduto"
-            :rules="marcaProdutoRules"
-            outlined
-            label="Marca"
-          />
+         <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+            style="display: flex; padding: 10px 10px 0;"
+          >
+            <span 
+              style="margin: 18px 20px 0 0;">Selecione um vendedor:</span>
+
+            <v-select
+              v-model="selected"
+              :items="vendedores"
+              item-text="nomeVendedor"
+              item-value="idVendedor"
+              outlined
+              :rules="[v => !!v || 'O campo vendedor é obrigatório!']"
+              required
+              label="Vendedor"
+            />
+
+            <v-btn
+              color="warning"
+              :disabled="!valid"
+              @click="buscarMovimentosVendedor()"
+              style="margin-left: 30px;"
+            >
+              Buscar
+          </v-btn>
+         </v-form>
+
       </v-flex>
     </v-row>
 
@@ -31,6 +54,11 @@
         sm12
         xs12
       >
+        <div class="content-title-graphic">
+          <span 
+            class="title-graphic">Resultado</span>
+        </div>
+
         <chartist
           :data="grafico.data"
           :options="grafico.options"
@@ -41,13 +69,28 @@
         />
       </v-flex>
     </v-layout>
+
+    <div class="content-graphic-description">
+      <div class="circulo" style="background: green;"></div>
+      <p class="graphic-description">Vendas realizadas com sucesso</p>
+
+      <div class="circulo" style="background: red;"></div>
+      <p class="graphic-description">Vendas não realizadas</p>
+    </div>
   </v-container>
 </template>
 
 <style lang="scss">
-  .wrapper-content { border: 2px solid blue; display: flex; flex-direction: column; }
-  .container-select-menu { border: 2px solid red; display: block; width: 100%; }
-  .container-graphic { border: 2px solid orange; display: block; width: 100%; max-height: 517px; }
+  .wrapper-content { display: flex; flex-direction: column; }
+  .container-select-menu { display:block; width: 100%; }
+  .container-graphic { display: block; width: 100%; max-height: 517px; }
+  #core-view > div > div.row.container-select-menu.align-center > div > form { width: 100%; height: 57px; }
+  .content-title-graphic { display: flex; border-bottom: 1px solid #808080; align-items: center; justify-content: center;
+    .title-graphic { margin: 18px 20px 0 0; font-size: 18px; font-weight: bold; }
+  }
+  .content-graphic-description { display: flex; align-items: center; justify-content: center; margin: 0; }
+  .circulo { width: 15px; height: 15px; border-radius: 50%; overflow: hidden; float: left; margin: 15px; transition: 0.3s ease; }
+  .graphic-description { margin-right: 15px; }
 </style>
 
 <script>
@@ -58,12 +101,14 @@ import Tooltip from 'chartist-plugin-tooltip'
 export default {
   data () {
     return {
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      items: [],
+      selected: '',
+      valid: true,
       grafico: {
         data: {
-          labels: 'teste, teste',
+          labels: '',
           series: [
-            ['1', '2', '3'], ['4', '5']
+            [], []
           ]
         },
         options: {
@@ -115,11 +160,13 @@ export default {
      ...mapActions('vendedores', {
       getAll: 'getAll'
     }),
-    
-    buscarMovimentosVendedor (idVendedor) {
-      this.getPorId(idVendedor)
+    buscarMovimentosVendedor () {
+      if (this.$refs.form.validate()) {
+        console.log('teste', this.selected)
+        this.getPorId(this.selected)
+      }
     },
-    dadosGrafico() {
+    dadosGrafico () {
       try {
         this.grafico.data.labels = this.dados[0].labels
         this.grafico.data.series[0] = this.dados[0].series1

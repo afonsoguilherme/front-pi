@@ -12,6 +12,10 @@
         sm12
         xs12
       >
+        <div class="content-title-graphic">
+          <span class="title-graphic">Resultado</span>
+        </div>
+
         <chartist
           :data="grafico.data"
           :options="grafico.options"
@@ -20,10 +24,27 @@
           style="height: 400px"
           type="Bar"
         />
+
+        <div class="content-graphic-description">
+          <div
+            class="circulo"
+            style="background: green;"></div>
+          <p class="graphic-description">Vendas realizadas com sucesso</p>
+
+          <div class="circulo"
+            style="background: red;"></div>
+          <p class="graphic-description">Vendas não realizadas</p>
+        </div>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
+
+<style lang="scss">
+  .content-graphic-description { display: flex; align-items: center; justify-content: center; margin-top: 30px; }
+  .circulo { width: 15px; height: 15px; border-radius: 50%; overflow: hidden; float: left; margin: 15px; transition: 0.3s ease; }
+  .graphic-description { margin: 15px 15px 0 0; }
+</style>
 
 <script>
 import { mapState, mapActions } from 'vuex'

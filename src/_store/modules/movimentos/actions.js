@@ -18,9 +18,10 @@ export default {
         error => commit('getAllGraficoFailure', error)
       )
   },
-  getGraficoPorID ({ commit }) {
+  getGraficoPorID ({ dispatch, commit }, idVendedor) {
+    console.log('testee')
     commit('getGraficoPorIdRequest')
-    movimentoService.getGraficoPorId()
+    movimentoService.getGraficoPorId(idVendedor)
       .then(
         movimentos => commit('getGraficoPorIdSuccess', movimentos),
         error => commit('getGraficoPorIdFailure', error)
