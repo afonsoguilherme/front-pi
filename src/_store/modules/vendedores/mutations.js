@@ -8,13 +8,49 @@ export default {
   getAllFailure (state, error) {
     state.all = { error }
   },
-  registerRequest (state, vendedor) {
-    state.status = { registering: true }
+  getEsperaRequest (state) {
+    state.espera = { loading: true }
   },
-  registerSuccess (state, vendedor) {
+  getEsperaSuccess (state, vendedores) {
+    state.espera = { items: vendedores }
+  },
+  getEsperaFailure (state, error) {
+    state.espera = { error }
+  },
+  getAtendimentoRequest (state) {
+    state.atendimento = { loading: true }
+  },
+  getAtendimentoSuccess (state, vendedores) {
+    state.atendimento = { items: vendedores }
+  },
+  getAtendimentoFailure (state, error) {
+    state.atendimento = { error }
+  },
+  getAusenciaRequest (state) {
+    state.ausencia = { loading: true }
+  },
+  getAusenciaSuccess (state, vendedores) {
+    state.ausencia = { items: vendedores }
+  },
+  getAusenciaFailure (state, error) {
+    state.ausencia = { error }
+  },
+  updateEsperaAtendimentoRequest (state) {
+    state.status = { updating: true }
+  },
+  updateEsperaAtendimentoSuccess (state, vendedor) {
     state.status = { vendedor }
   },
-  registerFailure (state, error) {
+  updateEsperaAtendimentoFailure (state, error) {
+    state.status = { error }
+  },
+  updateEsperaAusenciaRequest (state) {
+    state.status = { updating: true }
+  },
+  updateEsperaAusenciaSuccess (state, vendedor) {
+    state.status = { vendedor }
+  },
+  updateEsperaAusenciaFailure (state, error) {
     state.status = { error }
   },
   deleteRequest (state, idVendedor) {

@@ -94,6 +94,7 @@ export default {
         idVendedor: this.$store.state.editVendedor.vendedorEdit.idVendedor,
         nomeVendedor: this.$store.state.editVendedor.vendedorEdit.nomeVendedor,
         codigoVendedor: this.$store.state.editVendedor.vendedorEdit.codigoVendedor,
+        filaVendedor: this.$store.state.editVendedor.vendedorEdit.filaVendedor,
         imagemVendedor: this.$store.state.editVendedor.vendedorEdit.imagemVendedor
       },
       nomeRules: [

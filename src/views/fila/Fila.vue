@@ -31,7 +31,7 @@
                 style="height: 100%"
               >
                 <div
-                  v-for="(ausencia) in filaAusencia"
+                  v-for="(ausencia) in vendedoresAusencia"
                   :key="ausencia.idVendedorEmAusencia"
                 >
                   <material-card
@@ -44,7 +44,7 @@
                       color="orange"
                       class="cardFila"
                     >
-                      <div v-if="ausencia.vendedor.imagemVendedor === ''">
+                      <div v-if="ausencia.imagemVendedor === ''">
                         <v-avatar
                           size="70"
                           class="cardAvatar"
@@ -61,18 +61,18 @@
                           class="cardAvatar"
                         >
                           <img
-                            :src="ausencia.vendedor.imagemVendedor"
+                            :src="ausencia.imagemVendedor"
                             width="auto"
                           >
                         </v-avatar>
                       </div>
                     </v-card>
-                    <p class="cardText">{{ ausencia.vendedor.nomeVendedor }}</p>
+                    <p class="cardText">{{ ausencia.nomeVendedor }}</p>
                     <v-btn
                       small
                       color="orange"
                       style="margin: auto; display: block;"
-                      @click="fimAusencia(ausencia.vendedor.idVendedor)"
+                      @click="fimAusencia(ausencia)"
                     >
                       Voltar
                     </v-btn>
@@ -95,8 +95,8 @@
                   multiple
                   show-arrows>
                   <v-slide-item
-                    v-for="(espera, i) in filaEspera"
-                    :key="espera.idVendedorEmEspera"
+                    v-for="(espera, i) in vendedoresEspera"
+                    :key="espera.idVendedor"
                   >
                     <v-flex
                       sm6
@@ -115,7 +115,7 @@
                             color="primary"
                             class="cardFila"
                           >
-                            <div v-if="espera.vendedor.imagemVendedor === ''">
+                            <div v-if="espera.imagemVendedor === ''">
                               <v-avatar
                                 size="70"
                                 class="cardAvatar"
@@ -132,18 +132,18 @@
                                 class="cardAvatar"
                               >
                                 <img
-                                  :src="espera.vendedor.imagemVendedor"
+                                  :src="espera.imagemVendedor"
                                   width="auto"
                                 >
                               </v-avatar>
                             </div>
                           </v-card>
-                          <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
+                          <p class="cardText">{{ espera.nomeVendedor }}</p>
                           <v-btn
                             small
                             color="grey darken-2"
                             style="margin: auto; display: block;"
-                            @click="openModalAcoes(espera.vendedor.nomeVendedor, espera.vendedor.idVendedor, i)"
+                            @click="openModalAcoes(espera, i)"
                           >
                             Ações
                           </v-btn>
@@ -160,7 +160,7 @@
                             color="primary"
                             class="cardFila"
                           >
-                            <div v-if="espera.vendedor.imagemVendedor === ''">
+                            <div v-if="espera.imagemVendedor === ''">
                               <v-avatar
                                 size="70"
                                 class="cardAvatar"
@@ -177,18 +177,18 @@
                                 class="cardAvatar"
                               >
                                 <img
-                                  :src="espera.vendedor.imagemVendedor"
+                                  :src="espera.imagemVendedor"
                                   width="auto"
                                 >
                               </v-avatar>
                             </div>
                           </v-card>
-                          <p class="cardText">{{ espera.vendedor.nomeVendedor }}</p>
+                          <p class="cardText">{{ espera.nomeVendedor }}</p>
                           <v-btn
                             small
                             color="grey darken-2"
                             style="margin: auto; display: block;"
-                            @click="openModalAcoes(espera.vendedor.nomeVendedor, espera.vendedor.idVendedor)"
+                            @click="openModalAcoes(espera)"
                           >
                             Ações
                           </v-btn>
@@ -209,8 +209,8 @@
                   multiple
                   show-arrows>
                   <v-slide-item
-                    v-for="atendimento in filaAtendimento"
-                    :key="atendimento.idVendedorEmAtendimento"
+                    v-for="atendimento in vendedoresAtendimento"
+                    :key="atendimento.idVendedor"
                   >
                     <v-flex
                       sm6
@@ -228,7 +228,7 @@
                           color="success"
                           class="cardFila"
                         >
-                          <div v-if="atendimento.vendedor.imagemVendedor === ''">
+                          <div v-if="atendimento.imagemVendedor === ''">
                             <v-avatar
                               size="70"
                               class="cardAvatar"
@@ -245,18 +245,18 @@
                               class="cardAvatar"
                             >
                               <img
-                                :src="atendimento.vendedor.imagemVendedor"
+                                :src="atendimento.imagemVendedor"
                                 width="auto"
                               >
                             </v-avatar>
                           </div>
                         </v-card>
-                        <p class="cardText">{{ atendimento.vendedor.nomeVendedor }}</p>
+                        <p class="cardText">{{ atendimento.nomeVendedor }}</p>
                         <v-btn
                           small
                           color="success"
                           style="margin: auto; display: block;"
-                          @click="openmodalAtendimento(atendimento.vendedor.nomeVendedor, atendimento.vendedor.idVendedor)"
+                          @click="openModalAtendimento(atendimento)"
                         >
                           Finalizar
                         </v-btn>
@@ -278,13 +278,13 @@
               <div v-if="contador === 0">
                 <v-btn
                   color="success"
-                  @click="inicioAtendimento(idVendedor)"
+                  @click="inicioAtendimento(vendedor)"
                 >
                   Iniciar atendimento
                 </v-btn>
                 <v-btn
                   color="warning"
-                  @click="inicioAusencia(idVendedor)"
+                  @click="inicioAusencia(vendedor)"
                 >
                   Sair
                 </v-btn>
@@ -292,13 +292,13 @@
               <div v-else>
                 <v-btn
                   color="success"
-                  @click="inicioAtendimento(idVendedor)"
+                  @click="inicioAtendimento(vendedor)"
                 >
                   Priorizar atendimento
                 </v-btn>
                 <v-btn
                   color="warning"
-                  @click="inicioAusencia(idVendedor)"
+                  @click="inicioAusencia(vendedor)"
                 >
                   Sair
                 </v-btn>
@@ -315,13 +315,13 @@
             <v-card-actions>
               <v-btn
                 color="success"
-                @click="fimAtentimendoVendaRealizada(idVendedor)"
+                @click="fimAtentimendoVendaRealizada(vendedor)"
               >
                 Sim
               </v-btn>
               <v-btn
                 color="warning"
-                @click="fimAtendimentoVendaNaoRealizada(idVendedor)"
+                @click="fimAtendimentoVendaNaoRealizada(vendedor)"
               >
                 Não
               </v-btn>
@@ -453,7 +453,7 @@
                     <v-btn
                       :disabled="!valid"
                       color="success"
-                      @click="registrarVendaNaoRealizada()"
+                      @click="registrarVendaNaoRealizada(vendedor)"
                     >
                       Registrar
                     </v-btn>
@@ -480,6 +480,12 @@ export default {
       imagemVendedor: '',
       iconImage: './img/icon.png',
       contador: '',
+      vendedor: {
+        nomeVendedor: '',
+        codigoVendedor: '',
+        filaVendedor: '',
+        imagemVendedor: ''
+      },
       movimento: {
         idVendedor: '',
         tipoMovimento: '',
@@ -508,12 +514,6 @@ export default {
       modalAtendimento: false,
       modalVendaNaoRealizada: false,
       valid: true,
-      idVendedorVendaNaoSucedida: '',
-      marcaProduto: ['Marca 1', 'Marca 2', 'Marca 3', 'Marca 4'],
-      corProduto: ['Cor 1', 'Cor 2', 'Cor 3', 'Cor 4'],
-      tipoProduto: ['Cima', 'Baixo', 'Banho', 'Calçado'],
-      tamanhoAlfProduto: ['PP', 'P', 'M', 'G', 'GG'],
-      tamanhoNumProduto: ['33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44'],
       tipoProdutoRules: [ v => !!v || 'O campo tipo é obrigatório' ],
       marcaProdutoRules: [ v => !!v || 'O campo marca é obrigatório' ],
       corProdutoRules: [ v => !!v || 'O campo cor é obrigatório' ],
@@ -524,21 +524,12 @@ export default {
   },
   computed: {
     ...mapState({
-      filaAtendimento: state => state.filaAtendimento.all.items
-      // mensagem: state => state.filaAtendimento.status
+      vendedoresEspera: state => state.vendedores.espera.items,
+      vendedoresAtendimento: state => state.vendedores.atendimento.items,
+      vendedoresAusencia: state => state.vendedores.ausencia.items
     }),
     ...mapState({
-      filaEspera: state => state.filaEspera.all.items
-      // mensagem: state => state.filaEspera.status
-    }),
-    ...mapState({
-      filaAusencia: state => state.filaAusencia.all.items
-      // mensagem: state => state.filaAusencia.status
-    }),
-    ...mapState({
-      movimentos: state => state.movimentos.all.items,
-      movimentosVendedor: state => state.movimentos.allVendedor.items
-      // mensagem: state => state.movimentos.status
+      movimentos: state => state.movimentos.all.items
     }),
     ...mapState({
       tipos: state => state.tipos.all.items
@@ -555,9 +546,9 @@ export default {
   },
   created () {
     this.logout()
-    this.getAllAtendimento()
-    this.getAllEspera()
-    this.getAllAusencia()
+    this.getEspera()
+    this.getAtendimento()
+    this.getAusencia()
     this.getAllTipos()
     this.getAllMarcas()
     this.getAllCores()
@@ -565,18 +556,12 @@ export default {
   },
   methods: {
     ...mapActions('account', ['logout']),
-    ...mapActions('filaEspera', {
-      getAllEspera: 'getAll',
-      iniciarAtendimento: 'iniciarAtendimento',
-      iniciarAusencia: 'iniciarAusencia'
-    }),
-    ...mapActions('filaAtendimento', {
-      getAllAtendimento: 'getAll',
-      finalizarAtendimento: 'finalizarAtendimento'
-    }),
-    ...mapActions('filaAusencia', {
-      getAllAusencia: 'getAll',
-      finalizarAusencia: 'finalizarAusencia'
+    ...mapActions('vendedores', {
+      getEspera: 'getEspera',
+      getAtendimento: 'getAtendimento',
+      getAusencia: 'getAusencia',
+      updateAtendimento: 'updateEsperaAtendimento',
+      updateAusencia: 'updateEsperaAusencia'
     }),
     ...mapActions('movimentos', {
       registerMovimento: 'register',
@@ -597,25 +582,25 @@ export default {
     ...mapActions('tamanhos', {
       getAllTamanhos: 'getAll'
     }),
-    openModalAcoes (nome, id, i) {
-      this.nomeVendedor = nome
-      this.idVendedor = id
+    openModalAcoes (espera, i) {
+      this.vendedor = espera
       this.contador = i
       this.modalAcoes = true
     },
-    openmodalAtendimento (nome, id) {
-      this.nomeVendedor = nome
-      this.idVendedor = id
+    openModalAtendimento (vendedor) {
+      this.vendedor = vendedor
       this.modalAtendimento = true
     },
     onScroll (e) {
       this.offsetTop = e.target.scrollTop
     },
-    inicioAtendimento (idVendedor) {
-      if (idVendedor !== null) {
-        this.iniciarAtendimento(idVendedor)
+    inicioAtendimento (vendedor) {
+      if (vendedor !== null) {
+        this.vendedor = vendedor
+        this.vendedor.filaVendedor = 'Atendimento'
+        this.updateAtendimento(this.vendedor)
         this.modalAcoes = false
-        this.movimento.idVendedor = idVendedor
+        this.movimento.idVendedor = vendedor.idVendedor
 
         const options = {
           timeZone: 'America/Sao_Paulo',
@@ -632,16 +617,18 @@ export default {
 
         this.movimento.horarioMovimento.horaInicioMovimento = data
         this.movimento.horarioMovimento.dataInicioMovimento = data
+        this.movimento.statusVenda = false
         this.movimento.tipoMovimento = 'Venda'
         this.registerMovimento(this.movimento)
-        this.atualizaPage()
       }
     },
-    fimAtentimendoVendaRealizada (idVendedor) {
-      if (idVendedor !== null) {
-        this.finalizarAtendimento(idVendedor)
+    fimAtentimendoVendaRealizada (vendedor) {
+      if (vendedor !== null) {
+        this.vendedor = vendedor
+        this.vendedor.filaVendedor = 'Espera'
+        this.updateAtendimento(this.vendedor)
         this.modalAtendimento = false
-        this.movimento.idVendedor = idVendedor
+        this.movimento.idVendedor = vendedor.idVendedor
 
         const options = {
           timeZone: 'America/Sao_Paulo',
@@ -659,15 +646,14 @@ export default {
         this.movimento.horarioMovimento.horaFinalMovimento = data
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = true
-
         this.end(this.movimento)
-        this.atualizaPage()
       }
     },
-    fimAtendimentoVendaNaoRealizada (idVendedor) {
-      if (idVendedor !== null) {
+    fimAtendimentoVendaNaoRealizada (vendedor) {
+      if (vendedor !== null) {
+        this.vendedor = vendedor
         this.modalAtendimento = false
-        this.movimento.idVendedor = idVendedor
+        this.movimento.idVendedor = vendedor.idVendedor
 
         const options = {
           timeZone: 'America/Sao_Paulo',
@@ -686,27 +672,27 @@ export default {
         this.movimento.horarioMovimento.dataFinalMovimento = data
         this.movimento.statusVenda = false
 
-        this.vendaNaoSucedida.idVendedor = idVendedor
+        this.vendaNaoSucedida.idVendedor = vendedor.idVendedor
         this.modalVendaNaoRealizada = true
       }
     },
     registrarVendaNaoRealizada () {
       if (this.$refs.formVendaNaoSucedida.validate()) {
-        if (this.vendedorVendaNaoRealizada !== null || this.vendedorVendaNaoRealizada !== '') {
-          this.finalizarAtendimento(this.movimento.idVendedor)
-          this.end(this.movimento)
-          this.registerVendaNaoSucedida(this.vendaNaoSucedida)
-          this.modalVendaNaoRealizada = false
-          this.$refs.formVendaNaoSucedida.reset()
-          this.atualizaPage()
-        }
+        this.vendedor.filaVendedor = 'Espera'
+        this.updateAtendimento(this.vendedor)
+        this.end(this.movimento)
+        this.registerVendaNaoSucedida(this.vendaNaoSucedida)
+        this.modalVendaNaoRealizada = false
+        this.$refs.formVendaNaoSucedida.reset()
       }
     },
-    inicioAusencia (idVendedor) {
-      if (idVendedor !== null) {
-        this.iniciarAusencia(idVendedor)
+    inicioAusencia (vendedor) {
+      if (vendedor !== null) {
+        this.vendedor = vendedor
+        this.vendedor.filaVendedor = 'Ausencia'
+        this.updateAusencia(this.vendedor)
         this.modalAcoes = false
-        this.movimento.idVendedor = idVendedor
+        this.movimento.idVendedor = vendedor.idVendedor
 
         const options = {
           timeZone: 'America/Sao_Paulo',
@@ -723,16 +709,18 @@ export default {
 
         this.movimento.horarioMovimento.horaInicioMovimento = data
         this.movimento.horarioMovimento.dataInicioMovimento = data
+        this.movimento.statusVenda = false
         this.movimento.tipoMovimento = 'Ausencia'
 
         this.registerMovimento(this.movimento)
-        this.atualizaPage()
       }
     },
-    fimAusencia (idVendedor) {
-      if (idVendedor !== null) {
-        this.finalizarAusencia(idVendedor)
-        this.movimento.idVendedor = idVendedor
+    fimAusencia (vendedor) {
+      if (vendedor !== null) {
+        this.vendedor = vendedor
+        this.vendedor.filaVendedor = 'Espera'
+        this.updateAusencia(this.vendedor)
+        this.movimento.idVendedor = vendedor.idVendedor
 
         const options = {
           timeZone: 'America/Sao_Paulo',
@@ -752,11 +740,7 @@ export default {
         this.movimento.statusVenda = false
 
         this.end(this.movimento)
-        this.atualizaPage()
       }
-    },
-    atualizaPage () {
-      this.$router.go()
     }
   }
 }

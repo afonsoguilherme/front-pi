@@ -3,6 +3,9 @@ import { userService, config } from '.'
 
 export const vendedorService = {
   getAll,
+  getEspera,
+  getAtendimento,
+  getAusencia,
   register,
   update,
   delete: _delete
@@ -14,6 +17,30 @@ function getAll () {
     headers: authHeader()
   }
   return fetch(`${config.apiUrl}/Vendedor/ObterTodosVendedores`, requestOptions).then(handleResponse)
+}
+
+function getEspera () {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Vendedor/ObterVendedorEmEspera`, requestOptions).then(handleResponse)
+}
+
+function getAtendimento () {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Vendedor/ObterVendedorEmAtendimento`, requestOptions).then(handleResponse)
+}
+
+function getAusencia () {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader()
+  }
+  return fetch(`${config.apiUrl}/Vendedor/ObterVendedorEmAusencia`, requestOptions).then(handleResponse)
 }
 
 function register (vendedor) {

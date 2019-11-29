@@ -92,6 +92,7 @@ export default {
       vendedor: {
         nomeVendedor: '',
         codigoVendedor: '',
+        filaVendedor: 'Espera',
         imagemVendedor: ''
       },
       nomeRules: [

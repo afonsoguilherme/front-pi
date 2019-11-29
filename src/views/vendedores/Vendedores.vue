@@ -48,6 +48,17 @@
                 class="elevation-1"
                 @page-count="pageCount = $event"
               >
+                <template v-slot:item.filaVendedor="{ item }">
+                  <div v-if="item.filaVendedor === 'Espera'">
+                    Em espera
+                  </div>
+                  <div v-if="item.filaVendedor === 'Atendimento'">
+                    Em atendimento
+                  </div>
+                  <div v-if="item.filaVendedor === 'Ausencia'">
+                    Ausente
+                  </div>
+                </template>
                 <template v-slot:item.imagemVendedor="{ item }">
                   <div v-if="item.imagemVendedor === ''">
                     <v-avatar
@@ -158,12 +169,14 @@ export default {
       itemsPerPage: 10,
       nomeVendedor: '',
       codigoVendedor: '',
+      filaVendedor: '',
       imagemVendedor: '',
       iconImage: './img/icon.png',
       modalDelete: false,
       headers: [
         { text: 'Nome', align: 'left', value: 'nomeVendedor' },
         { text: 'Código', align: 'left', value: 'codigoVendedor' },
+        { text: 'Status', align: 'left', value: 'filaVendedor' },
         { text: 'Imagem', align: 'center', value: 'imagemVendedor', sortable: false },
         { text: 'Editar', align: 'center', value: 'edit', sortable: false },
         { text: 'Excluir', align: 'center', value: 'delete', sortable: false }
