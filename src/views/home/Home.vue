@@ -341,7 +341,7 @@
                 >
                   <v-card>
                     <v-card-title>
-                      <span class="headline">Editar cor</span>
+                      <span class="headline">Editar marca</span>
                     </v-card-title>
                     <v-container grid-list-md>
                       <v-form
@@ -351,7 +351,7 @@
                       >
                         <v-text-field
                           :rules="[v => !!v || 'O campo cor é obrigatório!']"
-                          v-model="corEdit.descricaoMarca"
+                          v-model="marcaEdit.descricaoMarca"
                           label="Descrição"
                           required
                         />
